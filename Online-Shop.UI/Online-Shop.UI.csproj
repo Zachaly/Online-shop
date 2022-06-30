@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>Online_Shop.UI</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Online-Shop.Application\Online-Shop.Application.csproj" />
+    <ProjectReference Include="..\Online-shop.DataBase\Online-shop.DataBase.csproj" />
+  </ItemGroup>
+
+</Project>
