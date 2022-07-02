@@ -1,6 +1,5 @@
 ﻿using Online_shop.DataBase;
 using Online_shop.Domain.Models;
-using Online_Shop.Application.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

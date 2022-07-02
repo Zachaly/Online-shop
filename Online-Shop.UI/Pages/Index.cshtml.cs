@@ -13,9 +13,6 @@ namespace Online_Shop.UI.Pages
     public class IndexModel : PageModel
     {
         private AppDbContext _dbContext;
-
-        [BindProperty]
-        public CreateProduct.ProductViewModel Product { get; set; }
         public IEnumerable<GetProducts.ProductViewModel> Products { get; set; }
 
         public IndexModel(AppDbContext dbContext)
@@ -26,13 +23,6 @@ namespace Online_Shop.UI.Pages
         public void OnGet()
         {
             Products = new GetProducts(_dbContext).Execute();
-        }
-
-        public async Task<IActionResult> OnPost()
-        {
-            await new CreateProduct(_dbContext).Execute(Product);
-
-            return RedirectToPage("Index");
         }
     }
 }
