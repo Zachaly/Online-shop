@@ -1,5 +1,6 @@
 ﻿using Online_shop.DataBase;
 using Online_shop.Domain.Models;
+using Online_Shop.Application.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,13 +18,13 @@ namespace Online_Shop.Application.Products
             _dbContext = dbContext;
         }
 
-        public async Task Do(string name, string description, decimal value)
+        public async Task Execute(ProductViewModel viewModel)
         {
             _dbContext.Products.Add(new Product
             {
-                Name = name,
-                Description = description,
-                Value = value
+                Name = viewModel.Name,
+                Description = viewModel.Description,
+                Value = decimal.Parse(viewModel.Value),
             });
 
             await _dbContext.SaveChangesAsync();

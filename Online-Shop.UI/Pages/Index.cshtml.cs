@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Online_shop.DataBase;
 using Online_Shop.Application.Products;
+using Online_Shop.Application.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,13 +17,7 @@ namespace Online_Shop.UI.Pages
 
         [BindProperty]
         public ProductViewModel Product { get; set; }
-
-        public class ProductViewModel
-        {
-            public string Name { get; set; }
-            public string Description { get; set; }
-            public decimal Value { get; set; }
-        }
+        public IEnumerable<ProductViewModel> Products { get; set; }
 
         public IndexModel(AppDbContext dbContext)
         {
@@ -31,12 +26,12 @@ namespace Online_Shop.UI.Pages
 
         public void OnGet()
         {
-
+            Products = new GetProducts(_dbContext).Execute();
         }
 
         public async Task<IActionResult> OnPost()
         {
-            await new CreateProduct(_dbContext).Do(Product.Name, Product.Description, Product.Value);
+            await new CreateProduct(_dbContext).Execute(Product);
 
             return RedirectToPage("Index");
         }
