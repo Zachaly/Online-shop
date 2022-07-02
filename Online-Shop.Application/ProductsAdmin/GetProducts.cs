@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Online_Shop.Application.Products
+namespace Online_Shop.Application.ProductsAdmin
 {
     public class GetProducts
     {
@@ -20,16 +20,18 @@ namespace Online_Shop.Application.Products
         public IEnumerable<ProductViewModel> Execute()
             => _dbContext.Products.ToList().Select(product => new ProductViewModel
                 {
+                    Id = product.Id,
                     Name = product.Name,
                     Description = product.Description,
-                    Value = $"{product.Value.ToString("N2")}$",
+                    Value = product.Value,
                 });
 
         public class ProductViewModel
         {
+            public int Id { get; set; }
             public string Name { get; set; }
             public string Description { get; set; }
-            public string Value { get; set; }
+            public decimal Value { get; set; }
         }
     }
 }

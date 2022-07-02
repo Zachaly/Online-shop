@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Online_Shop.Application.Products
+namespace Online_Shop.Application.ProductsAdmin
 {
     public class CreateProduct
     {
@@ -24,10 +24,17 @@ namespace Online_Shop.Application.Products
             {
                 Name = viewModel.Name,
                 Description = viewModel.Description,
-                Value = decimal.Parse(viewModel.Value),
+                Value = viewModel.Value,
             });
 
             await _dbContext.SaveChangesAsync();
+        }
+
+        public class ProductViewModel
+        {
+            public string Name { get; set; }
+            public string Description { get; set; }
+            public decimal Value { get; set; }
         }
     }
 }

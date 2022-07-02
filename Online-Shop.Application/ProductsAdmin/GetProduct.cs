@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Online_Shop.Application.Products
+namespace Online_Shop.Application.ProductsAdmin
 {
-    public class UpdateProduct
+    public class GetProduct
     {
 
     }

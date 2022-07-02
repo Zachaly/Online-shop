@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Online_Shop.Application.Products
+namespace Online_Shop.UI.Controllers
 {
-    public class DeleteProduct
+    public class AdminController
     {
 
     }
