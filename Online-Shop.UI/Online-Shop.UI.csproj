@@ -17,4 +17,8 @@
     <ProjectReference Include="..\Online-shop.DataBase\Online-shop.DataBase.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\lib\" />
+  </ItemGroup>
+
 </Project>
