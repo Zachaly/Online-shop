@@ -17,20 +17,37 @@ namespace Online_Shop.Application.ProductsAdmin
             _dbContext = dbContext;
         }
 
-        public async Task Execute(ProductViewModel viewModel)
+        public async Task<Response> Execute(Request request)
         {
-            _dbContext.Products.Add(new Product
+            var product = new Product
             {
-                Name = viewModel.Name,
-                Description = viewModel.Description,
-                Value = viewModel.Value,
-            });
+                Name = request.Name,
+                Description = request.Description,
+                Value = request.Value,
+            };
+            _dbContext.Products.Add(product);
 
             await _dbContext.SaveChangesAsync();
+
+            return new Response
+            {
+                Id = product.Id,
+                Description = product.Description,
+                Name = product.Name,
+                Value = product.Value,
+            };
         }
 
-        public class ProductViewModel
+        public class Request
         {
+            public string Name { get; set; }
+            public string Description { get; set; }
+            public decimal Value { get; set; }
+        }
+
+        public class Response
+        {
+            public int Id { get; set; }
             public string Name { get; set; }
             public string Description { get; set; }
             public decimal Value { get; set; }

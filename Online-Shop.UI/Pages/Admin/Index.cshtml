@@ -4,17 +4,24 @@
 }
 
 <div id="app">
-    <button v-on:click="togglePrice">Toggle</button>
-    <input type="number" v-model="price" />
-    <p v-show="showPrice">
-        {{price}}
-    </p>
-    <p v-if="showPrice">
-        {{formatPrice}}
-    </p>
+    <div>
+        <p v-for="(product, index) in products">
+            {{product.id}} - {{product.name}}
+            <a @@click="editProduct(product, index)">Edit</a>
+            <a @@click="deleteProduct(product.id, index)">Delete</a>
+        </p>
+    </div>
+    <div>
+        <input v-model="productModel.name" />
+        <input v-model="productModel.description" />
+        <input v-model="productModel.value" />
+        <button @@click="createProduct" v-if="!productModel.id">Create product</button>
+        <button @@click="updateProduct" v-else>Update product</button>
+    </div>
 </div>
 
 @section scripts{
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
     <script src="~/js/admin/main.js"></script>
 }

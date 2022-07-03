@@ -26,14 +26,14 @@ namespace Online_Shop.UI.Controllers
         public IActionResult GetProduct(int id) => Ok(new GetProduct(_dbContext).Execute(id));
 
         [HttpPost("products")]
-        public IActionResult CreateProduct(CreateProduct.ProductViewModel viewModel) 
-            => Ok(new CreateProduct(_dbContext).Execute(viewModel));
+        public async Task<IActionResult> CreateProduct([FromBody] CreateProduct.Request request) 
+            => Ok(await new CreateProduct(_dbContext).Execute(request));
 
         [HttpDelete("products/{id}")]
-        public IActionResult DeleteProduct(int id) => Ok(new DeleteProduct(_dbContext).Execute(id));
+        public async Task<IActionResult> DeleteProduct(int id) => Ok(await new DeleteProduct(_dbContext).Execute(id));
 
         [HttpPut("products")]
-        public IActionResult UpdateProduct(UpdateProduct.ProductViewModel viewModel)
-            => Ok(new UpdateProduct(_dbContext).Execute(viewModel));
+        public async Task<IActionResult> UpdateProduct([FromBody] UpdateProduct.Request request)
+            => Ok(await new UpdateProduct(_dbContext).Execute(request));
     }
 }

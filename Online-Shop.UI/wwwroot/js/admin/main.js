@@ -1,17 +1,68 @@
 ﻿let app = new Vue({
     el: '#app',
     data: {
-        price: 0,
-        showPrice: true,
+        loading: false,
+        id: 0,
+        objectIndex: 0,
+        products: [],
+        productModel: { id: 0, name: "Product Name", description: "Product description", value: 0.00 }
     },
-    computed: {
-        formatPrice: function() {
-            return this.price + "$";
-        }
+    mounted() {
+        this.getProducts();
     },
     methods: {
-        togglePrice: function () {
-            this.showPrice = !this.showPrice;
-        }
+        getProducts() {
+            this.loading = true;
+            axios.get("/Admin/products").
+                then(res => this.products = res.data).
+                catch(error => console.log(error)).
+                then(() => this.loading = false);
+        },
+        getProduct(id) {
+            this.loading = true;
+            axios.get("/Admin/products/" + id, ).
+                then(res => {
+                    console.log(res);
+                    let product = res.data;
+                    this.productModel = {
+                        id: product.id,
+                        name: product.name,
+                        description: product.description,
+                        value: product.value,
+                    }}).
+                catch(error => console.log(error)).
+                then(() => this.loading = false);
+        },
+        createProduct() {
+            this.loading = true;
+            axios.post("/Admin/products", this.productModel).
+                then(res => {
+                    console.log(res.data);
+                    this.products.push(res.data);
+                }).
+                catch(error => console.log(error)).
+                then(() => this.loading = false);;
+        },
+        editProduct(product, index) {
+            this.objectIndex = index;
+            this.getProduct(product.id);
+        },
+        updateProduct() {
+            this.loading = true;
+            axios.put("/Admin/products", this.productModel).
+                then(res => {
+                    console.log(res.data);
+                    this.products.splice(this.objectIndex, 1, res.data);
+                }).
+                catch(error => console.log(error)).
+                then(() => this.loading = false);;
+        },
+        deleteProduct(id, index) {
+            this.loading = true;
+            axios.delete("/Admin/products/" + id,).
+                then(() => this.products.splice(index, 1)).
+                catch(error => console.log(error)).
+                then(() => this.loading = false);
+        },
     }
 });
