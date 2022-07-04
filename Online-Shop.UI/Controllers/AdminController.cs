@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Online_shop.DataBase;
 using Online_Shop.Application.ProductsAdmin;
+using Online_Shop.Application.StockAdmin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,5 +36,20 @@ namespace Online_Shop.UI.Controllers
         [HttpPut("products")]
         public async Task<IActionResult> UpdateProduct([FromBody] UpdateProduct.Request request)
             => Ok(await new UpdateProduct(_dbContext).Execute(request));
+
+
+        [HttpGet("stocks")]
+        public IActionResult GetStocks() => Ok(new GetStock(_dbContext).Execute());
+
+        [HttpPost("stocks")]
+        public async Task<IActionResult> CreateStock([FromBody] CreateStock.Request request)
+            => Ok(await new CreateStock(_dbContext).Execute(request));
+
+        [HttpDelete("stocks/{id}")]
+        public async Task<IActionResult> DeleteStock(int id) => Ok(await new DeleteStock(_dbContext).Execute(id));
+
+        [HttpPut("stocks")]
+        public async Task<IActionResult> UpdateStock([FromBody] UpdateStock.Request request)
+            => Ok(await new UpdateStock(_dbContext).Execute(request));
     }
 }
