@@ -8,7 +8,9 @@
     @foreach(var product in Model.Products)
     {
         <p>
-            @product.Name - @product.Description - @product.Value
+            <a asp-page="Product" asp-route-name="@product.Name">
+                @product.Name - @product.Description - @product.Value
+            </a>
         </p>
     }
 </div>

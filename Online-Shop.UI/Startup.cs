@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,7 +8,7 @@ using Online_shop.DataBase;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace Online_Shop.UI
 {
@@ -30,6 +29,11 @@ namespace Online_Shop.UI
             services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseSqlServer(Configuration["DefaultConnection"]);
+            });
+            services.AddSession(option =>
+            {
+                option.Cookie.Name = "Cart";
+                option.Cookie.MaxAge = TimeSpan.FromDays(2);
             });
             services.AddMvc(option => option.EnableEndpointRouting = false);
         }
@@ -54,11 +58,13 @@ namespace Online_Shop.UI
             app.UseRouting();
 
             app.UseAuthorization();
-            
+
+            app.UseSession();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
-            });
+            }); 
 
             app.UseMvc();
         }
