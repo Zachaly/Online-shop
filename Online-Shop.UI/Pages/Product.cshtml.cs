@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Online_shop.DataBase;
+using Online_Shop.Application.Cart;
 using Online_Shop.Application.Products;
 
 namespace Online_Shop.UI.Pages
@@ -17,7 +18,8 @@ namespace Online_Shop.UI.Pages
 
         public GetProduct.ProductViewModel Product { get; set; }
         [BindProperty]
-        public Test ProductTest { get; set; }
+        public AddToCart.Request CartViewModel { get; set; }
+
 
         public IActionResult OnGet(string name)
         {
@@ -31,16 +33,10 @@ namespace Online_Shop.UI.Pages
 
         public IActionResult OnPost()
         {
-            var currentId = HttpContext.Session.GetString("id");
+            new AddToCart(HttpContext.Session).Execute(CartViewModel);
 
-            HttpContext.Session.SetString("id", ProductTest.Id);
-
-            return RedirectToPage("Index");
+            return RedirectToPage("Cart");
         }
 
-        public class Test
-        {
-            public string Id { get; set; }
-        }
     }
 }
