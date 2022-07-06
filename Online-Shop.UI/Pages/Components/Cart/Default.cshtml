@@ -1,10 +1,9 @@
-﻿@page
-@model Online_Shop.UI.Pages.CartModel
-@{
-}
+﻿@model IEnumerable<Online_Shop.Application.Cart.GetCart.Response>
+@{}
 
 <div>
-    @foreach(var product in Model.Cart)
+    <h2>Big Cart Component</h2>
+    @foreach(var product in Model)
     {
         <p>@product.Name</p>
         <p>@product.Value</p>
@@ -13,5 +12,3 @@
         <hr />
     }
 </div>
-
-<vc:cart view="Small"></vc:cart>

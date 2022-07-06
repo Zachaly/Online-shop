@@ -9,6 +9,9 @@ namespace Online_shop.Domain.Models
     public class Order
     {
         public int Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
         public string OrderReference { get; set; }
         public string Address { get; set; }
         public string City { get; set; }
