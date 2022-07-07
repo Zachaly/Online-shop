@@ -6,6 +6,10 @@
     <title>@ViewData["Title"] - Online_Shop.UI</title>
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.css" />
+    @if (ViewData["payment"] is null == false)
+    {
+        <link rel="stylesheet" href="~/css/checkout.css"/>
+    }
 </head>
 <body>
     <a class="nav-link text-dark" asp-area="" asp-page="/Admin/Index">Admin</a>
@@ -13,12 +17,6 @@
     <div class="container">
         @RenderBody()
     </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2022 - Online_Shop.UI - <a asp-area="" asp-page="/Privacy">Privacy</a>
-        </div>
-    </footer>
 
     <script src="~/js/site.js" asp-append-version="true"></script>
 

@@ -21,7 +21,18 @@ namespace Online_Shop.Application.Cart
 
         public void Execute(Request request)
         {
-            var customerInfo = JsonConvert.SerializeObject(request);
+            var customerInformation = new CustomerInformation
+            {
+                FirstName = request.FirstName,
+                Address = request.Address,
+                City = request.City,
+                Email = request.Email,
+                LastName = request.LastName,
+                PhoneNumber = request.PhoneNumber,
+                PostCode = request.PostCode
+            };
+            
+            var customerInfo = JsonConvert.SerializeObject(customerInformation);
 
             _session.SetString("customer-info", customerInfo);
         }
