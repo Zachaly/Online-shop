@@ -20,6 +20,6 @@ namespace Online_shop.Domain.Models
 
         public string StripeReference { get; set; }
 
-        public ICollection<OrderProduct> OrderProducts { get; set; }
+        public ICollection<OrderStock> OrderStocks { get; set; }
     }
 }

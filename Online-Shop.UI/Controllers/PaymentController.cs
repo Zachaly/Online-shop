@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Online_shop.DataBase;
 using Online_Shop.Application.Cart;
+using Online_Shop.Application.Orders;
 using Stripe;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace Online_Shop.UI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(PaymentIntentCreateRequest request)
+        public async Task<ActionResult> Create(PaymentIntentCreateRequest request)
         {
             var cartOrder = new GetOrder(HttpContext.Session, _dbContext).Execute();
 
@@ -36,6 +37,23 @@ namespace Online_Shop.UI.Controllers
                 {
                     Enabled = true,
                 },
+            });
+
+            await new CreateOrder(_dbContext).Execute(new CreateOrder.Request
+            {
+                FirstName = cartOrder.CustomerInformation.FirstName,
+                LastName = cartOrder.CustomerInformation.LastName,
+                Address = cartOrder.CustomerInformation.Address,
+                City = cartOrder.CustomerInformation.City,
+                PostCode = cartOrder.CustomerInformation.PostCode,
+                Email = cartOrder.CustomerInformation.Email,
+                PhoneNumber = cartOrder.CustomerInformation.PhoneNumber,
+                StripeId = paymentIntent.Id,
+                Stocks = cartOrder.Products.Select(prod => new CreateOrder.Stock
+                {
+                    StockId = prod.StockId,
+                    Quantity = prod.Quantity,
+                }).ToList(),
             });
 
             return Json(new { clientSecret = paymentIntent.ClientSecret });
