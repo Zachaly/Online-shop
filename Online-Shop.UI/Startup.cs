@@ -34,7 +34,7 @@ namespace Online_Shop.UI
             services.AddSession(option =>
             {
                 option.Cookie.Name = "Cart";
-                option.Cookie.MaxAge = TimeSpan.FromDays(2);
+                option.Cookie.MaxAge = TimeSpan.FromMinutes(20);
             });
             services.AddMvc(option => option.EnableEndpointRouting = false);
 

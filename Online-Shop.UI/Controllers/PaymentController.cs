@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Online_shop.DataBase;
 using Online_Shop.Application.Cart;
@@ -39,6 +40,8 @@ namespace Online_Shop.UI.Controllers
                 },
             });
 
+            var sessionId = HttpContext.Session.Id;
+
             await new CreateOrder(_dbContext).Execute(new CreateOrder.Request
             {
                 FirstName = cartOrder.CustomerInformation.FirstName,
@@ -49,6 +52,7 @@ namespace Online_Shop.UI.Controllers
                 Email = cartOrder.CustomerInformation.Email,
                 PhoneNumber = cartOrder.CustomerInformation.PhoneNumber,
                 StripeId = paymentIntent.Id,
+                SessionId = sessionId,
                 Stocks = cartOrder.Products.Select(prod => new CreateOrder.Stock
                 {
                     StockId = prod.StockId,

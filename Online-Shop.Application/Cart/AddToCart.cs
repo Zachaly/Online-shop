@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using Online_shop.DataBase;
 using Online_shop.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -12,14 +13,41 @@ namespace Online_Shop.Application.Cart
     public class AddToCart
     {
         private ISession _session;
+        private AppDbContext _dbContext;
 
-        public AddToCart(ISession session)
+        public AddToCart(ISession session, AppDbContext dbContext)
         {
             _session = session;
+            _dbContext = dbContext;
         }
 
-        public void Execute(Request request)
+        public async Task<bool> Execute(Request request)
         {
+            var stocksOnHold = _dbContext.StocksOnHold.Where(stock => stock.SessionId == _session.Id);
+            var stockToHold = _dbContext.Stock.FirstOrDefault(stock => stock.Id == request.StockId);
+
+            if(stockToHold.Quantity < request.Quantity)
+            {
+                return false;
+            }
+
+            _dbContext.StocksOnHold.Add(new StockOnHold
+            {
+                StockId = stockToHold.Id,
+                SessionId = _session.Id,
+                Quantity = request.Quantity,
+                ExpireDate = DateTime.Now.AddMinutes(20)
+            });
+
+            stockToHold.Quantity -= request.Quantity;
+
+            foreach(var stock in stocksOnHold)
+            {
+                stock.ExpireDate = DateTime.Now.AddMinutes(20);
+            }
+
+            await _dbContext.SaveChangesAsync();
+
             var cartString = _session.GetString("Cart");
             var cartList = new List<CartProduct>();
 
@@ -44,6 +72,8 @@ namespace Online_Shop.Application.Cart
             var requestString = JsonConvert.SerializeObject(cartList);
 
             _session.SetString("Cart", requestString);
+
+            return true;
         }
 
         public class Request

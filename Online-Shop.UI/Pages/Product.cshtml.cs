@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Online_shop.DataBase;
 using Online_Shop.Application.Cart;
 using Online_Shop.Application.Products;
+using System.Threading.Tasks;
 
 namespace Online_Shop.UI.Pages
 {
@@ -21,9 +22,9 @@ namespace Online_Shop.UI.Pages
         public AddToCart.Request CartViewModel { get; set; }
 
 
-        public IActionResult OnGet(string name)
+        public async Task<IActionResult> OnGet(string name)
         {
-            Product = new GetProduct(_dbContext).Execute(name);
+            Product = await new GetProduct(_dbContext).Execute(name);
 
             if (Product is null)
                 return RedirectToPage("Index");
@@ -31,11 +32,14 @@ namespace Online_Shop.UI.Pages
                 return Page();
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPost()
         {
-            new AddToCart(HttpContext.Session).Execute(CartViewModel);
+            var stockAdded = await new AddToCart(HttpContext.Session, _dbContext).Execute(CartViewModel);
 
-            return RedirectToPage("Cart");
+            if(stockAdded)
+                return RedirectToPage("Cart");
+
+            return Page();
         }
 
     }
