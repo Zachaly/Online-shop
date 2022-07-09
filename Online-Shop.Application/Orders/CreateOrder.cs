@@ -19,6 +19,13 @@ namespace Online_Shop.Application.Orders
 
         public async Task<bool> Execute(Request request)
         {
+            var stocksToUpdate = _dbContext.Stock.AsEnumerable().Where(stock => request.Stocks.Any(x => x.StockId == stock.Id)).ToList();
+
+            foreach(var stock in stocksToUpdate)
+            {
+                stock.Quantity -= stock.Quantity - request.Stocks.FirstOrDefault(x => x.StockId == stock.Id).Quantity;
+            }
+
             var order = new Order
             {
                 FirstName = request.FirstName,
@@ -39,9 +46,8 @@ namespace Online_Shop.Application.Orders
 
             _dbContext.Orders.Add(order);
 
-            await _dbContext.SaveChangesAsync();
 
-            return true;
+            return await _dbContext.SaveChangesAsync() > 0;
         }
 
         public string CreateOrderReference()

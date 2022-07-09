@@ -26,7 +26,7 @@ namespace Online_Shop.UI.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(PaymentIntentCreateRequest request)
         {
-            var cartOrder = new GetOrder(HttpContext.Session, _dbContext).Execute();
+            var cartOrder = new Application.Cart.GetOrder(HttpContext.Session, _dbContext).Execute();
 
             var paymentIntentService = new PaymentIntentService();
             var paymentIntent = paymentIntentService.Create(new PaymentIntentCreateOptions

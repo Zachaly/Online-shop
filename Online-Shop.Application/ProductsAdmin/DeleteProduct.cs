@@ -16,18 +16,11 @@ namespace Online_Shop.Application.ProductsAdmin
             _dbContext = dbContext;
         }
 
-        public async Task<Response> Execute(int productId)
+        public async Task<bool> Execute(int productId)
         {
             _dbContext.Products.Remove(_dbContext.Products.FirstOrDefault(product => product.Id == productId));
 
-            await _dbContext.SaveChangesAsync();
-
-            return new Response();
-        }
-
-        public class Response
-        {
-
+            return await _dbContext.SaveChangesAsync() > 0;
         }
     }
 }
