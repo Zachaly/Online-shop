@@ -14,14 +14,14 @@
     methods: {
         getProducts() {
             this.loading = true;
-            axios.get("/Admin/products").
+            axios.get("/products").
                 then(res => this.products = res.data).
                 catch(error => console.log(error)).
                 then(() => this.loading = false);
         },
         getProduct(id) {
             this.loading = true;
-            axios.get("/Admin/products/" + id,).
+            axios.get("/products/" + id,).
                 then(res => {
                     console.log(res);
                     let product = res.data;
@@ -37,7 +37,7 @@
         },
         createProduct() {
             this.loading = true;
-            axios.post("/Admin/products", this.productModel).
+            axios.post("/products", this.productModel).
                 then(res => {
                     console.log(res.data);
                     this.products.push(res.data);
@@ -56,7 +56,7 @@
         },
         updateProduct() {
             this.loading = true;
-            axios.put("/Admin/products", this.productModel).
+            axios.put("/products", this.productModel).
                 then(res => {
                     console.log(res.data);
                     this.products.splice(this.objectIndex, 1, res.data);
@@ -69,7 +69,7 @@
         },
         deleteProduct(id, index) {
             this.loading = true;
-            axios.delete("/Admin/products/" + id,).
+            axios.delete("/products/" + id,).
                 then(() => this.products.splice(index, 1)).
                 catch(error => console.log(error)).
                 then(() => this.loading = false);

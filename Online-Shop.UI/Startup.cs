@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Online_shop.DataBase;
+using Online_Shop.Application.UsersAdmin;
 using Stripe;
 using System;
 using System.Collections.Generic;
@@ -50,6 +51,10 @@ namespace Online_Shop.UI
             {
                 options.AddPolicy("Admin", policy => policy.RequireClaim("Role", "Admin"));
                 options.AddPolicy("Manager", policy => policy.RequireClaim("Role", "Manager"));
+                options.AddPolicy("Manager", policy => policy.
+                    RequireAssertion(context => 
+                    context.User.HasClaim("Role", "Manager") 
+                    || context.User.HasClaim("Role", "Admin")));
             });
 
             services.AddSession(option =>
@@ -62,9 +67,14 @@ namespace Online_Shop.UI
                 AddRazorPagesOptions(options =>
                 {
                     options.Conventions.AuthorizeFolder("/Admin");
+                    options.Conventions.AuthorizePage("/Admin/ConfigureUsers", "Admin");
                 });
 
             StripeConfiguration.ApiKey = Configuration.GetSection("Stripe")["SecretKey"];
+
+            services.AddTransient<CreateUser>();
+            services.AddTransient<GetUsers>();
+            services.AddTransient<DeleteUser>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

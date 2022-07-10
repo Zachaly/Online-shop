@@ -1,0 +1,30 @@
+﻿@page
+@model Online_Shop.UI.Pages.Admin.ConfigureUsersModel
+@{
+}
+
+<div id="app" class="container">
+
+    <div>
+        <table class="table">
+            <tr>
+                <th>UserName</th>
+                <th>Id</th>
+                <th></th>
+            </tr>
+            <tr v-for="(user, index) in users">
+                <td>{{user.username}}</td>
+                <td>{{user.id}}</td>
+                <td><a @@click="deleteUser(user.id, index)">Delete</a></td>
+            </tr>
+        </table>
+    </div>
+
+    
+    <input v-model="userModel.username"/>
+    <button @@click="createUser()">Add new User</button>
+</div>
+
+@section scripts{
+    <script src="~/js/admin/users.js"></script>
+}
