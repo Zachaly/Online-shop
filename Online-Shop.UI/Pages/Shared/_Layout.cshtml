@@ -13,6 +13,8 @@
 </head>
 <body>
     <a class="nav-link text-dark" asp-area="" asp-page="/Admin/Index">Admin</a>
+    <a asp-page="/Accounts/Login">Sign In</a>
+    <a asp-action="Logout" asp-controller="Account">Logout</a>
 
     <div class="container">
         @RenderBody()

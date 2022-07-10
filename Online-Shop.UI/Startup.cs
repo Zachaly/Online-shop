@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,12 +32,37 @@ namespace Online_Shop.UI
             {
                 options.UseSqlServer(Configuration["DefaultConnection"]);
             });
+
+            services.AddIdentity<IdentityUser, IdentityRole>(options =>
+            {
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 6;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireUppercase = true;
+            }).AddEntityFrameworkStores<AppDbContext>();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Accounts/Login";
+            });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Admin", policy => policy.RequireClaim("Role", "Admin"));
+                options.AddPolicy("Manager", policy => policy.RequireClaim("Role", "Manager"));
+            });
+
             services.AddSession(option =>
             {
                 option.Cookie.Name = "Cart";
                 option.Cookie.MaxAge = TimeSpan.FromMinutes(20);
             });
-            services.AddMvc(option => option.EnableEndpointRouting = false);
+
+            services.AddMvc(option => option.EnableEndpointRouting = false).
+                AddRazorPagesOptions(options =>
+                {
+                    options.Conventions.AuthorizeFolder("/Admin");
+                });
 
             StripeConfiguration.ApiKey = Configuration.GetSection("Stripe")["SecretKey"];
         }
@@ -60,16 +86,11 @@ namespace Online_Shop.UI
 
             app.UseRouting();
 
-            app.UseAuthorization();
-
+            app.UseAuthentication();
+            
             app.UseSession();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapRazorPages();
-            }); 
-
-            app.UseMvc();
+            app.UseMvcWithDefaultRoute();
         }
     }
 }

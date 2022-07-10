@@ -1,10 +1,14 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Online_shop.DataBase;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Online_Shop.UI
@@ -13,7 +17,46 @@ namespace Online_Shop.UI
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var host = CreateHostBuilder(args).Build();
+
+            try
+            {
+                using (var scope = host.Services.CreateScope())
+                {
+                    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+
+                    context.Database.EnsureCreated();
+
+                    if (!context.Users.Any())
+                    {
+                        var admin = new IdentityUser
+                        {
+                            UserName = "Admin"
+                        };
+
+                        var manager = new IdentityUser
+                        {
+                            UserName = "Manager"
+                        };
+
+                        userManager.CreateAsync(admin, "zaq1@WSx").GetAwaiter().GetResult();
+                        userManager.CreateAsync(manager, "zaq1@WSX").GetAwaiter().GetResult();
+
+                        var adminClaim = new Claim("Role", "Admin");
+                        var managerClaim = new Claim("Role", "Manager");
+
+                        userManager.AddClaimAsync(admin, adminClaim).GetAwaiter().GetResult();
+                        userManager.AddClaimAsync(manager, managerClaim).GetAwaiter().GetResult();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
