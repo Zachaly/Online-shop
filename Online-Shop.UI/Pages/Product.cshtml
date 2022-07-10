@@ -4,24 +4,81 @@
     ViewBag.Title = @Model.Product.Name;
 }
 
-<div>
-    <p>@Model.Product.Name</p>
-    <p>@Model.Product.Description</p>
-    <p>@Model.Product.Value</p>
-    <div>
-        <form method="post">
-            <label>Stock</label>
-            <select asp-for="CartViewModel.StockId">
-                @foreach(var stock in Model.Product.Stock)
-                {
-                    <option value="@stock.Id">@stock.Description</option> 
-                }
-            </select>
-            <label>Quantity</label>
-            <input asp-for="CartViewModel.Quantity" />
-            <button type="submit">Submit</button>
-        </form>
+<div class="hero">
+    <div class="hero-body">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-6">
+                    <figure class="image">
+                        <img src="~/images/placeholder.jpg" />
+                    </figure>
+                </div>
+                <div class="column is-6">
+                    <section class="content">
+                        <header>
+                            <p class="title">@Model.Product.Name</p>
+                            <p class="subtitle">@Model.Product.Description</p>
+                        </header>
+                        <main>
+                            <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eget ultrices enim. Vestibulum ultrices pellentesque sapien, id venenatis metus dictum vel. Aenean pulvinar ipsum in leo porta, nec fermentum enim ultrices. Maecenas ut risus vitae turpis sagittis laoreet. Sed accumsan arcu eget pharetra efficitur. Mauris massa orci, malesuada eu vehicula nec, bibendum eu purus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+
+                            Aliquam a aliquam erat. Fusce id neque dapibus, elementum enim ac, luctus diam. Nunc hendrerit libero a ante finibus volutpat. In hac habitasse platea dictumst. Nulla luctus, nisi at facilisis dictum, dui libero suscipit magna, a consectetur erat sem non urna. Morbi laoreet nibh efficitur mollis euismod. Mauris eget tellus ut sem placerat pharetra et sit amet urna. Curabitur neque arcu, sollicitudin ut enim in, ullamcorper feugiat sapien. Nam volutpat, elit id pharetra eleifend, ligula erat laoreet eros, eu feugiat tortor orci sed dolor. Nam malesuada arcu blandit ultricies malesuada.
+                            </p>
+                        </main>
+                        <footer>
+                            <form method="post">
+
+                                <div class="field is-horizontal">
+                                  <div class="field-label is-normal">
+                                    <label class="label">Size</label>
+                                  </div>
+                                  <div class="field-body">
+                                    <div class="field is-narrow">
+                                      <div class="control">
+                                        <div class="select is-fullwidth">
+                                           <select asp-for="CartViewModel.StockId">
+                                                @foreach(var stock in Model.Product.Stock)
+                                                {
+                                                    <option value="@stock.Id">@stock.Description</option> 
+                                                }
+                                           </select>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="field is-horizontal">
+                                  <div class="field-label is-normal">
+                                    <label class="label">Quantity</label>
+                                  </div>
+                                  <div class="field-body">
+                                    <div class="field is-narrow">
+                                      <div class="control">
+                                        <input asp-for="CartViewModel.Quantity" class="input" value="1"/>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="field is-horizontal">
+                                  <div class="field-label is-normal">
+                                    <label class="label"></label>
+                                  </div>
+                                  <div class="field-body">
+                                    <div class="field is-narrow">
+                                      <div class="control">
+                                          <button class="button is-success"type="submit">Submit</button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                            </form>
+                        </footer>
+                    </section>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
-@await Component.InvokeAsync("Cart")

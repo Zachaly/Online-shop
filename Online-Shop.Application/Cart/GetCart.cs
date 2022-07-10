@@ -41,7 +41,8 @@ namespace Online_Shop.Application.Cart
                     Name = stock.Product.Name,
                     Quantity = cartList.FirstOrDefault(prod => prod.StockId == stock.Id).Quantity,
                     StockId = stock.Id,
-                    Value = $"{stock.Product.Value.ToString("N2")}$"
+                    Value = $"{stock.Product.Value.ToString("N2")}$",
+                    RealValue = stock.Product.Value
                 }).ToList();
 
             return response;
@@ -51,6 +52,7 @@ namespace Online_Shop.Application.Cart
         {
             public string Name { set; get; }
             public string Value { get; set; }
+            public decimal RealValue { get; set; }
             public int StockId { get; set; }
             public int Quantity { get; set; }
         }
