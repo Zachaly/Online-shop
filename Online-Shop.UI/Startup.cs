@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Online_shop.DataBase;
+using Online_Shop.Application.OrdersAdmin;
 using Online_Shop.Application.UsersAdmin;
 using Stripe;
 using System;
@@ -75,6 +76,9 @@ namespace Online_Shop.UI
             services.AddTransient<CreateUser>();
             services.AddTransient<GetUsers>();
             services.AddTransient<DeleteUser>();
+            services.AddTransient<GetOrder>();
+            services.AddTransient<GetOrders>();
+            services.AddTransient<UpdateOrder>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

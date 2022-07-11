@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Online_shop.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,8 @@ namespace Online_shop.Domain.Models
         public string PhoneNumber { get; set; }
 
         public string StripeReference { get; set; }
+        
+        public OrderStatus Status { get; set; }
 
         public ICollection<OrderStock> OrderStocks { get; set; }
     }

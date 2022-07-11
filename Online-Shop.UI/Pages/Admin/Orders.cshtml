@@ -2,3 +2,101 @@
 @model OrdersModel
 @{
 }
+
+<div id="app">
+
+    <div v-if="selectedOrder === null">
+        <div class="tabs is-centered">
+            <ul>
+                <li v-bind:class="{'is-active': status === 0}"><a @@click="status = 0">Pending</a></li>
+                <li v-bind:class="{'is-active': status === 1}"><a @@click="status = 1">Packed</a></li>
+                <li v-bind:class="{'is-active': status === 2}"><a @@click="status = 2">Shipped</a></li>
+            </ul>
+        </div>
+
+        <table>
+            <tr>
+                <th class="p-1">Reference</th>
+                <th class="p-1">Customer Email</th>
+            </tr>
+            <tr v-for="order in orders">
+                <td class="p-1"><a @@click="selectOrder(order.id)">{{order.orderReference}}</a></td>
+                <td class="p-1">{{order.orderEmail}}</td>
+            </tr>
+        </table>
+    </div>
+    <div v-else>
+        <button class="button" @@click="selectedOrder = null">Return</button>
+        <button class="button" @@click="updateOrder(selectedOrder.id)" v-if="status !== 2">Process</button>
+        <div class="columns mt-2">
+            <div class="column is-6">
+                <p class="title">Customer Info</p>
+                <table class="table m-0">
+                    <tr>
+                        <th>Reference</th>
+                        <td>{{selectedOrder.reference}}</td>
+                    </tr>
+                    <tr>
+                        <th>Stripe Reference</th>
+                        <td>{{selectedOrder.stripeReference}}</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>{{selectedOrder.email}}</td>
+                    </tr>
+                    <tr>
+                        <th>First Name</th>
+                        <td>{{selectedOrder.firstName}}</td>
+                    </tr>
+                    <tr>
+                        <th>Last Name</th>
+                        <td>{{selectedOrder.lastName}}</td>
+                    </tr>
+                    <tr>
+                        <th>Address</th>
+                        <td>{{selectedOrder.address}}</td>
+                    </tr>
+                    <tr>
+                        <th>City</th>
+                        <td>{{selectedOrder.city}}</td>
+                    </tr>
+                    <tr>
+                        <th>Post Code</th>
+                        <td>{{selectedOrder.postCode}}</td>
+                    </tr>
+                    <tr>
+                        <th>Phone Number</th>
+                        <td>{{selectedOrder.phoneNumber}}</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="column is-6">
+                <p class="title">Products</p>
+                <table class="table">
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Stock</th>
+                        <th>Quantity</th>
+                        <th>Unit price</th>
+                        <th>Total Value</th>
+                    </tr>
+                    <tr v-for="product in selectedOrder.products">
+                        <td>{{product.name}}</td>
+                        <td>{{product.description}}</td>
+                        <td>{{product.stockDescription}}</td>
+                        <td>{{product.quantity}}</td>
+                        <td>{{product.value}}$</td>
+                        <td>{{product.totalValue}}$</td>
+                    </tr>
+                </table>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/js/admin/orders.js"></script>
+}
