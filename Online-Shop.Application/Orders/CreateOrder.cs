@@ -17,7 +17,7 @@ namespace Online_Shop.Application.Orders
             _dbContext = dbContext;
         }
 
-        public async Task<bool> Execute(Request request)
+        public async Task<bool> ExecuteAsync(Request request)
         {
             var stocksOnHold = _dbContext.StocksOnHold.Where(stock => stock.SessionId == request.SessionId).ToList();
 

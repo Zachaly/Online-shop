@@ -14,9 +14,9 @@ namespace Online_Shop.Application.Cart
     {
         private ISession _session;
 
-        public AddCustomerInformation(ISession session)
+        public AddCustomerInformation(IHttpContextAccessor session)
         {
-            _session = session;
+            _session = session.HttpContext.Session;
         }
 
         public void Execute(Request request)

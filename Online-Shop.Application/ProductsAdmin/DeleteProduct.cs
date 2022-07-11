@@ -16,7 +16,7 @@ namespace Online_Shop.Application.ProductsAdmin
             _dbContext = dbContext;
         }
 
-        public async Task<bool> Execute(int productId)
+        public async Task<bool> ExecuteAsync(int productId)
         {
             _dbContext.Products.Remove(_dbContext.Products.FirstOrDefault(product => product.Id == productId));
 

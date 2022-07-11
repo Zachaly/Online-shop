@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Online_Shop.Application.OrdersAdmin
 {
-    public class GetOrder
+    public class GetAdminOrder
     {
         private AppDbContext _dbContext;
 
-        public GetOrder(AppDbContext dbContext)
+        public GetAdminOrder(AppDbContext dbContext)
         {
             _dbContext = dbContext;
         }

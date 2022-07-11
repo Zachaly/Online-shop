@@ -10,17 +10,10 @@ namespace Online_Shop.UI.Controllers
 {
     public class AccountController : Controller
     {
-        private SignInManager<IdentityUser> _signInManager;
-
-        public AccountController(SignInManager<IdentityUser> signInManager)
-        {
-            _signInManager = signInManager;
-        }
-
         [HttpGet]
-        public async Task<IActionResult> Logout()
+        public async Task<IActionResult> Logout([FromServices] SignInManager<IdentityUser> manager)
         {
-            await _signInManager.SignOutAsync();
+            await manager.SignOutAsync();
 
             return RedirectToPage("/Index");
         }

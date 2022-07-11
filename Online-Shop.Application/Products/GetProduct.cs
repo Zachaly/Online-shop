@@ -17,7 +17,7 @@ namespace Online_Shop.Application.Products
             _dbContext = dbContext;
         }
 
-        public async Task<ProductViewModel> Execute(string name)
+        public async Task<ProductViewModel> ExecuteAsync(string name)
         {
             var stocksOnHold = _dbContext.StocksOnHold.Where(stock => stock.ExpireDate < DateTime.Now).ToList();
 

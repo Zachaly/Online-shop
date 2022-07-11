@@ -14,25 +14,21 @@ namespace Online_Shop.UI.Controllers
     [Authorize(Policy = "Manager")]
     public class StocksController : Controller
     {
-        private AppDbContext _dbContext;
-
-        public StocksController(AppDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
-
         [HttpGet("")]
-        public IActionResult GetStocks() => Ok(new GetStock(_dbContext).Execute());
+        public IActionResult GetStocks([FromServices] GetStock getStock) => Ok(getStock.Execute());
 
         [HttpPost("")]
-        public async Task<IActionResult> CreateStock([FromBody] CreateStock.Request request)
-            => Ok(await new CreateStock(_dbContext).Execute(request));
+        public async Task<IActionResult> CreateStock([FromBody] CreateStock.Request request,
+            [FromServices] CreateStock createStock)
+            => Ok(await createStock.ExecuteAsync(request));
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteStock(int id) => Ok(await new DeleteStock(_dbContext).Execute(id));
+        public async Task<IActionResult> DeleteStock(int id, [FromServices] DeleteStock deleteStock) 
+            => Ok(await deleteStock.ExecuteAsync(id));
 
         [HttpPut("")]
-        public async Task<IActionResult> UpdateStock([FromBody] UpdateStock.Request request)
-            => Ok(await new UpdateStock(_dbContext).Execute(request));
+        public async Task<IActionResult> UpdateStock([FromBody] UpdateStock.Request request,
+            [FromServices] UpdateStock updateStock)
+            => Ok(await updateStock.ExecuteAsync(request));
     }
 }

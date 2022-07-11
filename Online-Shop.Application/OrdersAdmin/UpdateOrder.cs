@@ -16,7 +16,7 @@ namespace Online_Shop.Application.OrdersAdmin
             _dbContext = dbContext;
         }
 
-        public async Task<bool> Execute(int id)
+        public async Task<bool> ExecuteAsync(int id)
         {
             var order = _dbContext.Orders.FirstOrDefault(order => order.Id == id);
 

@@ -16,7 +16,7 @@ namespace Online_Shop.Application.StockAdmin
             _dbContext = dbContext;
         }
 
-        public async Task<bool> Execute(int id)
+        public async Task<bool> ExecuteAsync(int id)
         {
 
             var stock = _dbContext.Stock.FirstOrDefault(stock => stock.Id == id);

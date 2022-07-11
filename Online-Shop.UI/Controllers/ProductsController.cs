@@ -14,28 +14,25 @@ namespace Online_Shop.UI.Controllers
     [Authorize(Policy = "Manager")]
     public class ProductsController : Controller
     {
-        private AppDbContext _dbContext;
-
-        public ProductsController(AppDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
-
         [HttpGet("")]
-        public IActionResult GetProducts() => Ok(new GetProducts(_dbContext).Execute());
+        public IActionResult GetProducts([FromServices] GetAdminProducts getProducts) => Ok(getProducts.Execute());
 
         [HttpGet("{id}")]
-        public IActionResult GetProduct(int id) => Ok(new GetProduct(_dbContext).Execute(id));
+        public IActionResult GetProduct(int id, [FromServices] GetAdminProduct getProduct) 
+            => Ok(getProduct.Execute(id));
 
         [HttpPost("")]
-        public async Task<IActionResult> CreateProduct([FromBody] CreateProduct.Request request)
-            => Ok(await new CreateProduct(_dbContext).Execute(request));
+        public async Task<IActionResult> CreateProduct([FromBody] CreateProduct.Request request,
+            [FromServices] CreateProduct createProduct) 
+            => Ok(await createProduct.ExecuteAsync(request));
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProduct(int id) => Ok(await new DeleteProduct(_dbContext).Execute(id));
+        public async Task<IActionResult> DeleteProduct(int id, [FromServices] DeleteProduct deleteProduct) 
+            => Ok(await deleteProduct.ExecuteAsync(id));
 
         [HttpPut("")]
-        public async Task<IActionResult> UpdateProduct([FromBody] UpdateProduct.Request request)
-            => Ok(await new UpdateProduct(_dbContext).Execute(request));
+        public async Task<IActionResult> UpdateProduct([FromBody] UpdateProduct.Request request,
+            [FromServices] UpdateProduct updateProduct) 
+            => Ok(await updateProduct.ExecuteAsync(request));
     }
 }

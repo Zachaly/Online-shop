@@ -15,13 +15,13 @@ namespace Online_Shop.Application.Cart
         private ISession _session;
         private AppDbContext _dbContext;
 
-        public AddToCart(ISession session, AppDbContext dbContext)
+        public AddToCart(IHttpContextAccessor session, AppDbContext dbContext)
         {
-            _session = session;
+            _session = session.HttpContext.Session;
             _dbContext = dbContext;
         }
 
-        public async Task<bool> Execute(Request request)
+        public async Task<bool> ExecuteAsync(Request request)
         {
             var stocksOnHold = _dbContext.StocksOnHold.Where(stock => stock.SessionId == _session.Id);
             var stockToHold = _dbContext.Stock.FirstOrDefault(stock => stock.Id == request.StockId);

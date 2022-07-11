@@ -12,17 +12,11 @@ namespace Online_Shop.UI.Pages
 {
     public class IndexModel : PageModel
     {
-        private AppDbContext _dbContext;
         public IEnumerable<GetProducts.ProductViewModel> Products { get; set; }
 
-        public IndexModel(AppDbContext dbContext)
+        public void OnGet([FromServices] GetProducts getProducts)
         {
-            _dbContext = dbContext;
-        }
-
-        public void OnGet()
-        {
-            Products = new GetProducts(_dbContext).Execute();
+            Products = getProducts.Execute();
         }
     }
 }

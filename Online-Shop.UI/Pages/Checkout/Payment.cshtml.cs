@@ -15,9 +15,9 @@ namespace Online_Shop.UI.Pages.Checkout
             PublicKey = config["Stripe:PublicKey"].ToString();
         }
 
-        public IActionResult OnGet()
+        public IActionResult OnGet([FromServices] GetCustomerInformation getCustomerInformation)
         {
-            var information = new GetCustomerInformation(HttpContext.Session).Execute();
+            var information = getCustomerInformation.Execute();
 
             if(information is null)
             {

@@ -8,18 +8,11 @@ namespace Online_Shop.UI.Pages
 {
     public class CartModel : PageModel
     {
-        private AppDbContext _dbContext;
-
         public IEnumerable<GetCart.Response> Cart { get; set; }
 
-        public CartModel(AppDbContext dbContext)
+        public IActionResult OnGet([FromServices] GetCart getCart)
         {
-            _dbContext = dbContext;
-        }
-
-        public IActionResult OnGet()
-        {
-            Cart = new GetCart(HttpContext.Session, _dbContext).Execute();
+            Cart = getCart.Execute();
 
             return Page();
         }

@@ -17,7 +17,7 @@ namespace Online_Shop.Application.UsersAdmin
             _userManager = userManager;
         }
 
-        public async Task<Response> Execute(Request request)
+        public async Task<Response> ExecuteAsync(Request request)
         {
             var manager = new IdentityUser
             {

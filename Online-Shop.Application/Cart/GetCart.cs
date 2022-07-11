@@ -16,9 +16,9 @@ namespace Online_Shop.Application.Cart
         private ISession _session;
         private AppDbContext _dbContext;
 
-        public GetCart(ISession session, AppDbContext dbContext)
+        public GetCart(IHttpContextAccessor session, AppDbContext dbContext)
         {
-            _session = session;
+            _session = session.HttpContext.Session;
             _dbContext = dbContext;
         }
 

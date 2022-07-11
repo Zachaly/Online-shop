@@ -13,24 +13,16 @@ namespace Online_Shop.UI.Controllers
     [Authorize(Policy = "Manager")]
     public class OrdersController : Controller
     {
-        private GetOrders _getOrders;
-        private GetOrder _gerOrder;
-        private UpdateOrder _updateOrder;
-
-        public OrdersController(GetOrders getOrders, GetOrder getOrder, UpdateOrder updateOrder)
-        {
-            _getOrders = getOrders;
-            _gerOrder = getOrder;
-            _updateOrder = updateOrder;
-        }
-
         [HttpGet("")]
-        public IActionResult GetOrders(int status) => Ok(_getOrders.Execute(status));
+        public IActionResult GetOrders(int status, [FromServices] GetOrders getOrders) 
+            => Ok(getOrders.Execute(status));
 
         [HttpGet("{id}")]
-        public IActionResult GetOrder(int id) => Ok(_gerOrder.Execute(id));
+        public IActionResult GetOrder(int id, [FromServices] GetAdminOrder getOrder) 
+            => Ok(getOrder.Execute(id));
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateOrder(int id) => Ok(await _updateOrder.Execute(id));
+        public async Task<IActionResult> UpdateOrder(int id, [FromServices] UpdateOrder updateOrder) 
+            => Ok(await updateOrder.ExecuteAsync(id));
     }
 }

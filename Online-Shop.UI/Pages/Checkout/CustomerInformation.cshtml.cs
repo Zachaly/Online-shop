@@ -9,23 +9,17 @@ namespace Online_Shop.UI.Pages.Checkout
 {
     public class CustomerInformationModel : PageModel
     {
-        private IWebHostEnvironment _hostingEnvironment;
-
         [BindProperty]
         public AddCustomerInformation.Request CustomerInformation { get; set; }
 
-        public CustomerInformationModel(IWebHostEnvironment hostingEnvironment)
+        public IActionResult OnGet([FromServices] GetCustomerInformation getCustomerInformation,
+            [FromServices] IWebHostEnvironment webHostEnvironment)
         {
-            _hostingEnvironment = hostingEnvironment;
-        }
-
-        public IActionResult OnGet()
-        {
-            var information = new GetCustomerInformation(HttpContext.Session).Execute();
+            var information = getCustomerInformation.Execute();
 
             if(information is null)
             {
-                if (_hostingEnvironment.IsDevelopment())
+                if (webHostEnvironment.IsDevelopment())
                 {
                     CustomerInformation = new AddCustomerInformation.Request
                     {
@@ -45,9 +39,9 @@ namespace Online_Shop.UI.Pages.Checkout
             return RedirectToPage("/Checkout/Payment");
         }
 
-        public IActionResult OnPost()
+        public IActionResult OnPost([FromServices] AddCustomerInformation addCustomerInformation)
         {
-            new AddCustomerInformation(HttpContext.Session).Execute(CustomerInformation);
+            addCustomerInformation.Execute(CustomerInformation);
 
             if (!ModelState.IsValid)
             {

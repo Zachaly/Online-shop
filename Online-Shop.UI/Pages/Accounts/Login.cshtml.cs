@@ -7,13 +7,6 @@ namespace Online_Shop.UI.Pages.Accounts
 {
     public class LoginModel : PageModel
     {
-        private SignInManager<IdentityUser> _signInManager;
-
-        public LoginModel(SignInManager<IdentityUser> signInManager)
-        {
-            _signInManager = signInManager;
-        }
-
         [BindProperty]
         public LoginViewModel Input { get; set; }
 
@@ -21,9 +14,9 @@ namespace Online_Shop.UI.Pages.Accounts
         {
         }
 
-        public async Task<IActionResult> OnPost()
+        public async Task<IActionResult> OnPost([FromServices] SignInManager<IdentityUser> signInManager)
         {
-            var result =  await _signInManager.PasswordSignInAsync(Input.UserName, Input.Password, false, false);
+            var result =  await signInManager.PasswordSignInAsync(Input.UserName, Input.Password, false, false);
 
             if (result.Succeeded)
             {

@@ -11,14 +11,14 @@ using System.Threading.Tasks;
 
 namespace Online_Shop.Application.Cart
 {
-    public class GetOrder
+    public class GetCartOrder
     {
         private ISession _session;
         private AppDbContext _dbContext;
 
-        public GetOrder(ISession session, AppDbContext dbContext)
+        public GetCartOrder(IHttpContextAccessor session, AppDbContext dbContext)
         {
-            _session = session;
+            _session = session.HttpContext.Session;
             _dbContext = dbContext;
         }
 

@@ -10,21 +10,13 @@ namespace Online_Shop.UI.Pages
 {
     public class ProductModel : PageModel
     {
-        private AppDbContext _dbContext;
-
-        public ProductModel(AppDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
-
         public GetProduct.ProductViewModel Product { get; set; }
         [BindProperty]
         public AddToCart.Request CartViewModel { get; set; }
 
-
-        public async Task<IActionResult> OnGet(string name)
+        public async Task<IActionResult> OnGet(string name, [FromServices] GetProduct getProduct)
         {
-            Product = await new GetProduct(_dbContext).Execute(name);
+            Product = await getProduct.ExecuteAsync(name);
 
             if (Product is null)
                 return RedirectToPage("Index");
@@ -32,15 +24,14 @@ namespace Online_Shop.UI.Pages
                 return Page();
         }
 
-        public async Task<IActionResult> OnPost()
+        public async Task<IActionResult> OnPost([FromServices] AddToCart addToCart)
         {
-            var stockAdded = await new AddToCart(HttpContext.Session, _dbContext).Execute(CartViewModel);
+            var stockAdded = await addToCart.ExecuteAsync(CartViewModel);
 
             if(stockAdded)
                 return RedirectToPage("Cart");
 
             return Page();
         }
-
     }
 }

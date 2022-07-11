@@ -17,7 +17,7 @@ namespace Online_Shop.Application.StockAdmin
             _dbContext = dbContext;
         }
 
-        public async Task<Response> Execute(Request request)
+        public async Task<Response> ExecuteAsync(Request request)
         {
 
             var stock = new Stock

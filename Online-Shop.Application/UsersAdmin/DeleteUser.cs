@@ -16,7 +16,7 @@ namespace Online_Shop.Application.UsersAdmin
             _userManager = userManager;
         }
 
-        public async Task<bool> Execute(string id)
+        public async Task<bool> ExecuteAsync(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
 

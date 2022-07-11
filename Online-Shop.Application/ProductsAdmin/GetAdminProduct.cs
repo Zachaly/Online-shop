@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Online_Shop.Application.ProductsAdmin
 {
-    public class GetProduct
+    public class GetAdminProduct
     {
         private AppDbContext _dbContext;
 
-        public GetProduct(AppDbContext dbContext)
+        public GetAdminProduct(AppDbContext dbContext)
         {
             _dbContext = dbContext;
         }

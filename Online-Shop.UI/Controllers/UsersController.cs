@@ -16,27 +16,18 @@ namespace Online_Shop.UI.Controllers
     [Authorize(Policy = "Admin")]
     public class UsersController : Controller
     {
-        private CreateUser _createUser;
-        private GetUsers _getUsers;
-        private DeleteUser _deleteUser;
-
-        public UsersController(CreateUser createUser, GetUsers getUsers, DeleteUser deleteUser)
-        {
-            _createUser = createUser;
-            _getUsers = getUsers;
-            _deleteUser = deleteUser;
-        }
-
         [HttpPost("")]
-        public async Task<IActionResult> CreateUser([FromBody] CreateUser.Request request) 
-            => Ok(await _createUser.Execute(request));
+        public async Task<IActionResult> CreateUser([FromBody] CreateUser.Request request,
+            [FromServices] CreateUser createUser) 
+            => Ok(await createUser.ExecuteAsync(request));
         
 
         [HttpGet("")]
-        public IActionResult GetUsers() => Ok(_getUsers.Execute());
+        public IActionResult GetUsers([FromServices] GetUsers getUsers) => Ok(getUsers.Execute());
 
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(string id) => Ok(await _deleteUser.Execute(id));
+        public async Task<IActionResult> DeleteUser(string id, [FromServices] DeleteUser deleteUser) 
+            => Ok(await deleteUser.ExecuteAsync(id));
     }
 }

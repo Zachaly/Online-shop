@@ -17,7 +17,7 @@ namespace Online_Shop.Application.ProductsAdmin
             _dbContext = dbContext;
         }
 
-        public async Task<Response> Execute(Request request)
+        public async Task<Response> ExecuteAsync(Request request)
         {
             var product = new Product
             {

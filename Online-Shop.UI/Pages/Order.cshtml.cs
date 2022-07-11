@@ -7,18 +7,11 @@ namespace Online_Shop.UI.Pages
 {
     public class OrderModel : PageModel
     {
-        private AppDbContext _dbContext;
-
         public GetOrder.Response Order { get; set; }
 
-        public OrderModel(AppDbContext dbContext)
+        public void OnGet(string reference, [FromServices] GetOrder getOrder)
         {
-            _dbContext = dbContext;
-        }
-
-        public void OnGet(string reference)
-        {
-            Order = new GetOrder(_dbContext).Execute(reference);
+            Order = getOrder.Execute(reference);
         }
     }
 }

@@ -17,17 +17,11 @@ namespace Online_Shop.UI.Controllers
     [ApiController]
     public class PaymentController : Controller
     {
-        private AppDbContext _dbContext;
-
-        public PaymentController(AppDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
-
         [HttpPost]
-        public async Task<ActionResult> Create(PaymentIntentCreateRequest request)
+        public async Task<ActionResult> Create(PaymentIntentCreateRequest request,
+            [FromServices] GetCartOrder getCartOrder, [FromServices] CreateOrder createOrder)
         {
-            var cartOrder = new Application.Cart.GetOrder(HttpContext.Session, _dbContext).Execute();
+            var cartOrder = getCartOrder.Execute();
 
             var paymentIntentService = new PaymentIntentService();
             var paymentIntent = paymentIntentService.Create(new PaymentIntentCreateOptions
@@ -42,7 +36,7 @@ namespace Online_Shop.UI.Controllers
 
             var sessionId = HttpContext.Session.Id;
 
-            await new CreateOrder(_dbContext).Execute(new CreateOrder.Request
+            await createOrder.ExecuteAsync(new CreateOrder.Request
             {
                 FirstName = cartOrder.CustomerInformation.FirstName,
                 LastName = cartOrder.CustomerInformation.LastName,
