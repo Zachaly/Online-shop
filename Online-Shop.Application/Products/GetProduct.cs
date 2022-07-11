@@ -47,7 +47,7 @@ namespace Online_Shop.Application.Products
                     {
                         Id = stock.Id,
                         Description = stock.Description,
-                        InStock = stock.Quantity > 0,
+                        Quantity = stock.Quantity,
                     })
                 }).FirstOrDefault();
         }
@@ -65,7 +65,7 @@ namespace Online_Shop.Application.Products
         {
             public int Id { get; set; }
             public string Description { get; set; }
-            public bool InStock { get; set; }
+            public int Quantity { get; set; }
         }
     }
 }

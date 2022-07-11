@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Online_Shop.UI.Controllers
 {
-    [Route("Admin/[controller]")]
+    [Route("[controller]")]
     [Authorize(Policy = "Manager")]
     public class ProductsController : Controller
     {

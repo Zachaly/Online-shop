@@ -1,4 +1,5 @@
-﻿using Online_shop.DataBase;
+﻿using Microsoft.EntityFrameworkCore;
+using Online_shop.DataBase;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,18 +18,20 @@ namespace Online_Shop.Application.Products
         }
 
         public IEnumerable<ProductViewModel> Execute()
-            => _dbContext.Products.ToList().Select(product => new ProductViewModel
+            => _dbContext.Products.Include(db => db.Stock).Select(product => new ProductViewModel
                 {
                     Name = product.Name,
                     Description = product.Description,
                     Value = $"{product.Value.ToString("N2")}$",
-                });
+                    StockCount = product.Stock.Sum(stock => stock.Quantity)
+                }).ToList();
 
         public class ProductViewModel
         {
             public string Name { get; set; }
             public string Description { get; set; }
             public string Value { get; set; }
+            public int StockCount { get; set; }
         }
     }
 }
