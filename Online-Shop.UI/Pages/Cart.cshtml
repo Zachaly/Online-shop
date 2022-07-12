@@ -8,7 +8,7 @@
         <div class="column is-8 is-offset-3">
             @foreach(var product in Model.Cart)
             {
-                <div class="level">
+                <div class="level" id="product-@product.StockId">
                     <div class="level-item">
                         <figure class="image is-128x128">
                             <img src="~/images/placeholder.jpg">
@@ -19,8 +19,23 @@
                             @product.Name
                         </p>
                     </div>
-                    <div class="level-item is-hidden-mobile">
-                        <p>@product.Quantity</p>
+                    <div class="level-item">
+                        <div class="columns is-mobile is-multiline ">
+                            <div class="column is-4 is-gapless">
+                                <button class="button has-text-centered" onclick="addOneToCart(event)" data-stock-id="@product.StockId">+</button>
+                            </div>
+                            <div class="column is-4 is-gapless" >
+                                <p class="align-content-center" id="stock-@product.StockId">@product.Quantity</p>
+                            </div>
+                            <div class="column is-4 is-gapless">
+                                <button class="button has-text-centered" onclick="removeOneFromCart(event)" data-stock-id="@product.StockId">-</button>
+                            </div>
+                            <div class="column is-12 has-text-centered">
+                                <a class="has-text-danger" onclick="removeAllFromCart(event)" data-stock-id="@product.StockId">Remove</a>
+                            </div>
+                        </div>
+
+                        
                     </div>
                     <div class="level-item">
                         <p>@product.Value</p>
@@ -35,3 +50,46 @@
         </div>
     </div>
 </div>
+
+@section scripts{
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script>
+        function addOneToCart(event) {
+            let stockId = event.target.dataset.stockId;
+            axios.post("/Cart/AddOne/" + stockId).then(res => 
+                {
+                    let id = "stock-" + stockId;
+                    let container = document.getElementById(id);
+
+                    let quantity = parseInt(container.innerText)
+
+                    container.innerText = quantity + 1;
+                }).catch(error => alert(error));
+        }
+
+        function removeOneFromCart(event) {
+            let stockId = event.target.dataset.stockId;
+            axios.post("/Cart/RemoveOne/" + stockId).then(res => 
+                {
+                    let id = "stock-" + stockId;
+                    let container = document.getElementById(id);
+
+                    let quantity = parseInt(container.innerText)
+
+                    container.innerText = quantity - 1;
+                }).catch(error => alert(error));
+        }
+
+        function removeAllFromCart(event) {
+            let stockId = event.target.dataset.stockId;
+            axios.post("/Cart/RemoveAll/" + stockId).then(res => 
+                {
+                    let id = "product-" + stockId;
+                    let container = document.getElementById(id);
+
+                container.outerHTML = "";
+                }).catch(error => alert(error));
+        }
+    </script>
+}

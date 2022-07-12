@@ -15,9 +15,9 @@ namespace Online_Shop.Application.Cart
         private ISession _session;
         private AppDbContext _dbContext;
 
-        public AddToCart(IHttpContextAccessor session, AppDbContext dbContext)
+        public AddToCart(IHttpContextAccessor httpAccessor, AppDbContext dbContext)
         {
-            _session = session.HttpContext.Session;
+            _session = httpAccessor.HttpContext.Session;
             _dbContext = dbContext;
         }
 
@@ -31,15 +31,22 @@ namespace Online_Shop.Application.Cart
                 return false;
             }
 
-            _dbContext.StocksOnHold.Add(new StockOnHold
+            if (stocksOnHold.Any(stock => stock.StockId == request.StockId))
             {
-                StockId = stockToHold.Id,
-                SessionId = _session.Id,
-                Quantity = request.Quantity,
-                ExpireDate = DateTime.Now.AddMinutes(20)
-            });
+                _dbContext.StocksOnHold.FirstOrDefault(stock => stock.StockId == request.StockId).Quantity += request.Quantity;
+            }
+            else
+            {
+                _dbContext.StocksOnHold.Add(new StockOnHold
+                {
+                    StockId = stockToHold.Id,
+                    SessionId = _session.Id,
+                    Quantity = request.Quantity,
+                    ExpireDate = DateTime.Now.AddMinutes(20)
+                });
+            }
 
-            stockToHold.Quantity -= request.Quantity;
+            stockToHold.Quantity += request.Quantity;
 
             foreach(var stock in stocksOnHold)
             {
