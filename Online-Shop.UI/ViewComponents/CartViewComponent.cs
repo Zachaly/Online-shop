@@ -1,11 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Online_shop.DataBase;
 using Online_Shop.Application.Cart;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Online_Shop.UI.ViewComponents
 {

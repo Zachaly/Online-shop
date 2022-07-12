@@ -1,7 +1,5 @@
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Online_shop.DataBase;
 using Online_Shop.Application.Cart;
 using Online_Shop.Application.Products;
 using System.Threading.Tasks;

@@ -1,12 +1,10 @@
 ﻿using Online_shop.DataBase;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Online_Shop.Application.ProductsAdmin
 {
+    /// <summary>
+    /// Updates information about product
+    /// </summary>
     public class UpdateProduct
     {
         private AppDbContext _dbContext;

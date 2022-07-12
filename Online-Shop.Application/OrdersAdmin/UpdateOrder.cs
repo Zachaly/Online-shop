@@ -1,12 +1,10 @@
 ﻿using Online_shop.DataBase;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Online_Shop.Application.OrdersAdmin
 {
+    /// <summary>
+    /// Processes an order
+    /// </summary>
     public class UpdateOrder
     {
         private AppDbContext _dbContext;

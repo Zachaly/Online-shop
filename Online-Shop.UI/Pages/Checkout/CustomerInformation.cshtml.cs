@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Hosting;
-using Online_shop.DataBase;
 using Online_Shop.Application.Cart;
 
 namespace Online_Shop.UI.Pages.Checkout
@@ -19,6 +18,7 @@ namespace Online_Shop.UI.Pages.Checkout
 
             if(information is null)
             {
+                // fill form with default data while testing
                 if (webHostEnvironment.IsDevelopment())
                 {
                     CustomerInformation = new AddCustomerInformation.Request

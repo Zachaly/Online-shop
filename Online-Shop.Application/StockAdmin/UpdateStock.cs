@@ -1,13 +1,11 @@
 ﻿using Online_shop.DataBase;
 using Online_shop.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Online_Shop.Application.StockAdmin
 {
+    /// <summary>
+    /// Updates info about stock
+    /// </summary>
     public class UpdateStock
     {
         private AppDbContext _dbContext;

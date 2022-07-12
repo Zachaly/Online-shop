@@ -1,19 +1,18 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Online_shop.Domain.Models;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Online_Shop.Application.Cart
-{
+{   
+    /// <summary>
+    /// Adds customer information to session
+    /// </summary>
     public class AddCustomerInformation
     {
         private ISession _session;
 
+        
         public AddCustomerInformation(IHttpContextAccessor httpAccessor)
         {
             _session = httpAccessor.HttpContext.Session;

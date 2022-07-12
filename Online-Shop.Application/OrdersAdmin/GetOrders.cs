@@ -1,13 +1,11 @@
 ﻿using Online_shop.DataBase;
 using Online_shop.Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Online_Shop.Application.OrdersAdmin
 {
+    /// <summary>
+    /// Gets all orders
+    /// </summary>
     public class GetOrders
     {
         private AppDbContext _dbContext;
@@ -17,14 +15,14 @@ namespace Online_Shop.Application.OrdersAdmin
             _dbContext = dbContext;
         }
 
-        public IEnumerable<OrderModel> Execute(int status) =>
-            _dbContext.Orders.Where(order => order.Status == (OrderStatus)status).
-            Select(order => new OrderModel
-            {
-                Id = order.Id,
-                OrderEmail = order.Email,
-                OrderReference = order.OrderReference
-            }).ToList();
+        public IEnumerable<OrderModel> Execute(int status) 
+            => _dbContext.Orders.Where(order => order.Status == (OrderStatus)status).
+                Select(order => new OrderModel
+                {
+                    Id = order.Id,
+                    OrderEmail = order.Email,
+                    OrderReference = order.OrderReference
+                }).ToList();
 
         public class OrderModel
         {

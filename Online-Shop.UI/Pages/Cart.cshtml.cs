@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Online_shop.DataBase;
 using Online_Shop.Application.Cart;
 using System.Collections.Generic;
 

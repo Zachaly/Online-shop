@@ -1,18 +1,17 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Online_shop.DataBase;
 using Online_Shop.Application.Cart;
 using Online_Shop.Application.Orders;
 using Stripe;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Online_Shop.UI.Controllers
 {
+    /// <summary>
+    /// Example from stripe website
+    /// </summary>
     [Route("create-payment-intent")]
     [ApiController]
     public class PaymentController : Controller
@@ -56,6 +55,7 @@ namespace Online_Shop.UI.Controllers
 
             return Json(new { clientSecret = paymentIntent.ClientSecret });
         }
+
         public class Item
         {
             [JsonProperty("id")]

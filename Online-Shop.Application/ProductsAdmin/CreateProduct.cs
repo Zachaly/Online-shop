@@ -1,13 +1,11 @@
 ﻿using Online_shop.DataBase;
 using Online_shop.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Online_Shop.Application.ProductsAdmin
 {
+    /// <summary>
+    /// Add product to database
+    /// </summary>
     public class CreateProduct
     {
         private AppDbContext _dbContext;

@@ -1,13 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Online_shop.DataBase;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Online_Shop.Application.OrdersAdmin
 {
+    /// <summary>
+    /// Gets max ammount of info about order for admin usage
+    /// </summary>
     public class GetAdminOrder
     {
         private AppDbContext _dbContext;
@@ -19,32 +17,32 @@ namespace Online_Shop.Application.OrdersAdmin
 
         public Response Execute(int id)
             => _dbContext.Orders.Where(order => order.Id == id).
-            Include(order => order.OrderStocks).
-            ThenInclude(orderStock => orderStock.Stock).
-            ThenInclude(stock => stock.Product).
-            Select(order => new Response 
-            {
-                Id = order.Id,
-                Reference = order.OrderReference,
-                StripeReference = order.StripeReference,
-
-                FirstName = order.FirstName,
-                LastName = order.LastName,
-                Address = order.Address,
-                City = order.City,
-                Email = order.Email,
-                PhoneNumber = order.PhoneNumber,
-                PostCode = order.PostCode,
-
-                Products = order.OrderStocks.Select(stock => new Product
+                Include(order => order.OrderStocks).
+                ThenInclude(orderStock => orderStock.Stock).
+                ThenInclude(stock => stock.Product).
+                Select(order => new Response 
                 {
-                    Name = stock.Stock.Product.Name,
-                    Description = stock.Stock.Product.Description,
-                    Quantity = stock.Quantity,
-                    StockDescription = stock.Stock.Description,
-                    Value = stock.Stock.Product.Value
-                })
-            }).FirstOrDefault();
+                    Id = order.Id,
+                    Reference = order.OrderReference,
+                    StripeReference = order.StripeReference,
+
+                    FirstName = order.FirstName,
+                    LastName = order.LastName,
+                    Address = order.Address,
+                    City = order.City,
+                    Email = order.Email,
+                    PhoneNumber = order.PhoneNumber,
+                    PostCode = order.PostCode,
+
+                    Products = order.OrderStocks.Select(stock => new Product
+                    {
+                        Name = stock.Stock.Product.Name,
+                        Description = stock.Stock.Product.Description,
+                        Quantity = stock.Quantity,
+                        StockDescription = stock.Stock.Description,
+                        Value = stock.Stock.Product.Value
+                    })
+                }).FirstOrDefault();
 
         public class Response
         {

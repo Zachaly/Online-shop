@@ -6,16 +6,14 @@ using Online_Shop.Application.Products;
 using Online_Shop.Application.ProductsAdmin;
 using Online_Shop.Application.StockAdmin;
 using Online_Shop.Application.UsersAdmin;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ServiceRegister
     {
+        /// <summary>
+        /// Adds depedencies used in this app
+        /// </summary>
         public static IServiceCollection AddApplicationServices(this IServiceCollection @this)
         {
             @this.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

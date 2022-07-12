@@ -6,13 +6,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Online_shop.DataBase;
-using Online_Shop.Application.OrdersAdmin;
-using Online_Shop.Application.UsersAdmin;
 using Stripe;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-
 
 namespace Online_Shop.UI
 {
@@ -52,6 +47,7 @@ namespace Online_Shop.UI
             {
                 options.AddPolicy("Admin", policy => policy.RequireClaim("Role", "Admin"));
                 options.AddPolicy("Manager", policy => policy.RequireClaim("Role", "Manager"));
+                // Admin has access to same thing that manager has
                 options.AddPolicy("Manager", policy => policy.
                     RequireAssertion(context => 
                     context.User.HasClaim("Role", "Manager") 

@@ -1,13 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Online_shop.DataBase;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Online_Shop.Application.Products
 {
+    /// <summary>
+    /// Gets product info for customer
+    /// </summary>
     public class GetProduct
     {
         private AppDbContext _dbContext;

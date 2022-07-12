@@ -2,14 +2,13 @@
 using Newtonsoft.Json;
 using Online_shop.DataBase;
 using Online_shop.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Online_Shop.Application.Cart
 {
+    /// <summary>
+    /// Adds given stock to a cart, and reduces ammount of currectly avaible stocks
+    /// </summary>
     public class AddToCart
     {
         private ISession _session;
@@ -46,7 +45,7 @@ namespace Online_Shop.Application.Cart
                 });
             }
 
-            stockToHold.Quantity += request.Quantity;
+            stockToHold.Quantity -= request.Quantity;
 
             foreach(var stock in stocksOnHold)
             {

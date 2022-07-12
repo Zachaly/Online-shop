@@ -1,13 +1,11 @@
 ﻿using Online_shop.DataBase;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Online_Shop.Application.StockAdmin
 {
+    /// <summary>
+    /// Gets information about stock
+    /// </summary>
     public class GetStock
     {
         private AppDbContext _dbContext;

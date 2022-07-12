@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Online_Shop.Application.UsersAdmin
 {
+    /// <summary>
+    /// Removes given user
+    /// </summary>
     public class DeleteUser
     {
         private UserManager<IdentityUser> _userManager;

@@ -1,13 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Online_shop.DataBase;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Online_Shop.Application.Orders
 {
+    /// <summary>
+    /// Get order basing on reference
+    /// </summary>
     public class GetOrder
     {
         private AppDbContext _dbContext;
@@ -17,8 +15,8 @@ namespace Online_Shop.Application.Orders
             _dbContext = dbContext;
         }
 
-        public Response Execute(string reference) => 
-        _dbContext.Orders.Where(order => order.OrderReference == reference).
+        public Response Execute(string reference) 
+            => _dbContext.Orders.Where(order => order.OrderReference == reference).
                 Include(order => order.OrderStocks).
                 ThenInclude(order => order.Stock).
                 ThenInclude(stock => stock.Product).Select(order => new Response

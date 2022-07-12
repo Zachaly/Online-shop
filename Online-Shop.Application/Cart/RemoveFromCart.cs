@@ -2,14 +2,13 @@
 using Newtonsoft.Json;
 using Online_shop.DataBase;
 using Online_shop.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Online_Shop.Application.Cart
 {
+    /// <summary>
+    /// Removes products from cart and releases a stock on hold
+    /// </summary>
     public class RemoveFromCart
     {
         private ISession _session;

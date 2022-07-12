@@ -1,15 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Online_shop.Domain.Models;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Online_Shop.Application.Cart
 {
+    /// <summary>
+    /// Get customer information from session
+    /// </summary>
     public class GetCustomerInformation
     {
         private ISession _session;
