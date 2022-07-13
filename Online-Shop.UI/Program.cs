@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Online_shop.DataBase;
+using Online_shop.Database;
 using System;
 using System.Linq;
 using System.Security.Claims;

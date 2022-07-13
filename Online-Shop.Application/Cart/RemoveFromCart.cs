@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using Online_shop.DataBase;
+using Online_shop.Database;
+using Online_shop.Domain.Infrastructure;
 using Online_shop.Domain.Models;
-using Online_Shop.Application.Infrastructure;
+using Online_Shop.Domain.Infrastructure;
 using System.Text;
 
 namespace Online_Shop.Application.Cart
@@ -13,46 +14,24 @@ namespace Online_Shop.Application.Cart
     public class RemoveFromCart
     {
         private ISessionManager _sessionManager;
-        private AppDbContext _dbContext;
+        private IStockManager _stockManager;
 
-        public RemoveFromCart(ISessionManager sessionManager, AppDbContext dbContext)
+        public RemoveFromCart(ISessionManager sessionManager, IStockManager stockManager)
         {
             _sessionManager = sessionManager;
-            _dbContext = dbContext;
+            _stockManager = stockManager;
         }
 
         public async Task<bool> ExecuteAsync(Request request)
         {
-            var complete = _sessionManager.RemoveProductFromCart(request.StockId, request.Quantity, request.All);
+            if (request.Quantity < 0)
+                return false;
 
-            if (complete)
-            {
-                return true;
-            }
+            await _stockManager.RemoveStockFromHold(request.StockId, _sessionManager.GetId(), request.Quantity);
 
-            var stockOnHold = _dbContext.StocksOnHold.
-                FirstOrDefault(stock => stock.StockId == request.StockId 
-                && stock.SessionId == _sessionManager.GetId());
+            _sessionManager.RemoveProductFromCart(request.StockId, request.Quantity);
 
-            var stock = _dbContext.Stock.FirstOrDefault(stock => stock.Id == request.StockId);
-
-            if (request.All)
-            {
-                stock.Quantity += stockOnHold.Quantity;
-                stockOnHold.Quantity = 0;
-            }
-            else
-            {
-                stock.Quantity += request.Quantity;
-                stockOnHold.Quantity -= request.Quantity;
-            }
-
-            if(stockOnHold.Quantity <= 0)
-            {
-                _dbContext.StocksOnHold.Remove(stockOnHold);
-            }
-
-            return await _dbContext.SaveChangesAsync() > 0;
+            return true;
         }
 
         public class Request

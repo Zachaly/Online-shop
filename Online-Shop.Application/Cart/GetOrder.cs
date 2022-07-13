@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using Online_shop.DataBase;
+using Online_shop.Database;
 using Online_shop.Domain.Models;
-using Online_Shop.Application.Infrastructure;
+using Online_Shop.Domain.Infrastructure;
 using System.Text;
 
 namespace Online_Shop.Application.Cart
@@ -14,28 +14,22 @@ namespace Online_Shop.Application.Cart
     public class GetOrder
     {
         private ISessionManager _sessionManager;
-        private AppDbContext _dbContext;
 
-        public GetOrder(ISessionManager sessionManager, AppDbContext dbContext)
+        public GetOrder(ISessionManager sessionManager)
         {
             _sessionManager = sessionManager;
-            _dbContext = dbContext;
         }
 
         public Response Execute()
         {
-            var cart = _sessionManager.GetCartProducts();
-
-            var productList = _dbContext.Stock.Include(x => x.Product).AsEnumerable().
-                Where(stock => cart.Any(item => item.StockId == stock.Id)).
-                Select(stock => new Product
-                {
-                    Name = stock.Product.Name,
-                    ProductId = stock.ProductId,
-                    Quantity = cart.FirstOrDefault(x => x.StockId == stock.Id).Quantity,
-                    StockId = stock.Id,
-                    Value = (int)(stock.Product.Value * 100),
-                }).ToList();
+            var productList = _sessionManager.GetCartProducts(product => new Product
+            {
+                Name = product.ProductName,
+                ProductId = product.ProductId,
+                Quantity = product.Quantity,
+                StockId = product.StockId,
+                Value = (int)(product.Value * 100),
+            }).ToList();
 
             var customerInfo = _sessionManager.GetCustomerInformation();
 

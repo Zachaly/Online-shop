@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Online-shop.Domain", "..\On
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Online-Shop.Application", "..\Online-Shop.Application\Online-Shop.Application.csproj", "{6EBB38BA-77DB-4B70-816A-9080EF47BEC4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Online-shop.DataBase", "..\Online-shop.DataBase\Online-shop.DataBase.csproj", "{2AE49BF5-749C-46DB-8AAD-9D46D298EAC2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Online-shop.Database", "..\Online-shop.DataBase\Online-shop.Database.csproj", "{2AE49BF5-749C-46DB-8AAD-9D46D298EAC2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Online-Shop.UI", "..\Online-Shop.UI\Online-Shop.UI.csproj", "{BD98AA1A-D3E6-408E-AD0D-EBF2E5921FD7}"
 EndProject

@@ -1,9 +1,9 @@
-﻿using Online_shop.DataBase;
+﻿using Online_shop.Database;
 
 namespace Online_Shop.Application.ProductsAdmin
 {
     /// <summary>
-    /// Removes product from database
+    /// Removes product from Database
     /// </summary>
     public class DeleteProduct
     {

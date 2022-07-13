@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Online_shop.Domain.Infrastructure;
 using Online_Shop.Application.Cart;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Online_Shop.UI.Controllers
@@ -24,13 +26,13 @@ namespace Online_Shop.UI.Controllers
             return BadRequest("Failed adding to cart");
         }
 
-        [HttpPost("{stockId}")]
-        public async Task<IActionResult> RemoveOne(int stockId, [FromServices] RemoveFromCart removeFromCart)
+        [HttpPost("{stockId}/{quantity}")]
+        public async Task<IActionResult> RemoveProduct(int stockId, int quantity, [FromServices] RemoveFromCart removeFromCart)
         {
             var request = new RemoveFromCart.Request
             {
                 StockId = stockId,
-                Quantity = 1
+                Quantity = quantity
             };
 
             if(await removeFromCart.ExecuteAsync(request))
@@ -41,21 +43,20 @@ namespace Online_Shop.UI.Controllers
             return BadRequest("Failed to remove from cart");
         }
 
-        [HttpPost("{stockId}")]
-        public async Task<IActionResult> RemoveAll(int stockId, [FromServices] RemoveFromCart removeFromCart)
+        [HttpGet("")]
+        public IActionResult GetCartComponent([FromServices] GetCart getCart)
         {
-            var request = new RemoveFromCart.Request
-            {
-                StockId = stockId,
-                All = true
-            };
+            var totalValue = getCart.Execute().Sum(product => product.RealValue * product.Quantity);
 
-            if (await removeFromCart.ExecuteAsync(request))
-            {
-                return Ok("Removed all from cart");
-            }
+            return View("Components/Cart/Small", totalValue.GetPriceString());
+        }
 
-            return BadRequest("Failed to remove all from cart");
+        [HttpGet("")]
+        public IActionResult GetCartMain([FromServices] GetCart getCart)
+        {
+            var cart = getCart.Execute();
+
+            return PartialView("_CartPartial", cart);
         }
     }
 }

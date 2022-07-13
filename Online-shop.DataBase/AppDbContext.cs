@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Online_shop.Domain.Models;
 
-namespace Online_shop.DataBase
+namespace Online_shop.Database
 {
     public class AppDbContext : IdentityDbContext
     {

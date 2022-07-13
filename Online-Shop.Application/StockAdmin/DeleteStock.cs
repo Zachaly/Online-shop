@@ -1,9 +1,9 @@
-﻿using Online_shop.DataBase;
+﻿using Online_shop.Database;
 
 namespace Online_Shop.Application.StockAdmin
 {
     /// <summary>
-    /// Removes stock from database
+    /// Removes stock from Database
     /// </summary>
     public class DeleteStock
     {

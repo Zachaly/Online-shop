@@ -5,15 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Online_Shop.Application.Infrastructure
+namespace Online_Shop.Domain.Infrastructure
 {
     public interface ISessionManager
     {
         string GetId();
-        void AddProductToCart(int stockId, int quantity);
-        List<CartProduct> GetCartProducts();
+        void AddProductToCart(CartProduct product);
+        IEnumerable<TResult> GetCartProducts<TResult>(Func<CartProduct, TResult> selector);
         CustomerInformation GetCustomerInformation();
         void AddCustomerInformation(CustomerInformation customerInformation);
-        bool RemoveProductFromCart(int stockId, int quantity, bool all = false);
+        void RemoveProductFromCart(int stockId, int quantity);
     }
 }

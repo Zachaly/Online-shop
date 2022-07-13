@@ -1,4 +1,4 @@
-﻿using Online_shop.DataBase;
+﻿using Online_shop.Database;
 using Online_shop.Domain.Enums;
 
 namespace Online_Shop.Application.OrdersAdmin

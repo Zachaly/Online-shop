@@ -1,10 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using Online_shop.DataBase;
-using Online_shop.Domain.Models;
-using Online_Shop.Application.Infrastructure;
-using System.Text;
+﻿using Online_shop.Domain.Infrastructure;
+using Online_Shop.Domain.Infrastructure;
 
 namespace Online_Shop.Application.Cart
 {
@@ -14,37 +9,22 @@ namespace Online_Shop.Application.Cart
     public class GetCart
     {
         private ISessionManager _sessionManager;
-        private AppDbContext _dbContext;
 
-        public GetCart(ISessionManager sessionManager, AppDbContext dbContext)
+        public GetCart(ISessionManager sessionManager)
         {
             _sessionManager = sessionManager;
-            _dbContext = dbContext;
         }
 
         public IEnumerable<Response> Execute()
-        {
-            var cartList = _sessionManager.GetCartProducts();
-
-            if(cartList is null)
-            {
-                return Enumerable.Empty<Response>();
-            }
-
-            // added AsEnumerable() because without it Linq goes nuts and throws an error
-            var response = _dbContext.Stock.Include(stock => stock.Product).AsEnumerable().
-                Where(stock => cartList.Any(prod => prod.StockId == stock.Id)).
-                Select(stock => new Response
+            => _sessionManager.GetCartProducts(item => new Response
                 {
-                    Name = stock.Product.Name,
-                    Quantity = cartList.FirstOrDefault(prod => prod.StockId == stock.Id).Quantity,
-                    StockId = stock.Id,
-                    Value = $"{stock.Product.Value.ToString("N2")}$",
-                    RealValue = stock.Product.Value
-                }).ToList();
-
-            return response;
-        }
+                    Name = item.ProductName,
+                    Quantity = item.Quantity,
+                    StockId = item.StockId,
+                    Value = item.Value.GetPriceString(),
+                    RealValue = item.Value
+                });
+        
 
         public class Response
         {

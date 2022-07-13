@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Online_shop.DataBase;
+using Online_shop.Database;
 
 #nullable disable
 
-namespace Online_shop.DataBase.Migrations
+namespace Online_shop.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     [Migration("20220711150650_OrderStatus")]

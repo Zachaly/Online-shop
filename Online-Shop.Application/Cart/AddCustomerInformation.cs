@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Online_shop.Domain.Models;
-using Online_Shop.Application.Infrastructure;
+using Online_Shop.Domain.Infrastructure;
 using System.ComponentModel.DataAnnotations;
 
 namespace Online_Shop.Application.Cart

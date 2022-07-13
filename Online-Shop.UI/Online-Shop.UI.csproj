@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Online-Shop.Application\Online-Shop.Application.csproj" />
-    <ProjectReference Include="..\Online-shop.DataBase\Online-shop.DataBase.csproj" />
+    <ProjectReference Include="..\Online-shop.Database\Online-shop.Database.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-﻿using Online_shop.DataBase;
+﻿using Online_shop.Database;
 using Online_shop.Domain.Models;
 
 namespace Online_Shop.Application.StockAdmin

@@ -5,49 +5,7 @@
 
 <div class="container">
     <div class="columns">
-        <div class="column is-8 is-offset-3">
-            @foreach(var product in Model.Cart)
-            {
-                <div class="level" id="product-@product.StockId">
-                    <div class="level-item">
-                        <figure class="image is-128x128">
-                            <img src="~/images/placeholder.jpg">
-                        </figure> 
-                    </div>
-                    <div class="level-item">
-                        <p class="title">
-                            @product.Name
-                        </p>
-                    </div>
-                    <div class="level-item">
-                        <div class="columns is-mobile is-multiline ">
-                            <div class="column is-4 is-gapless">
-                                <button class="button has-text-centered" onclick="addOneToCart(event)" data-stock-id="@product.StockId">+</button>
-                            </div>
-                            <div class="column is-4 is-gapless" >
-                                <p class="align-content-center" id="stock-@product.StockId">@product.Quantity</p>
-                            </div>
-                            <div class="column is-4 is-gapless">
-                                <button class="button has-text-centered" onclick="removeOneFromCart(event)" data-stock-id="@product.StockId">-</button>
-                            </div>
-                            <div class="column is-12 has-text-centered">
-                                <a class="has-text-danger" onclick="removeAllFromCart(event)" data-stock-id="@product.StockId">Remove</a>
-                            </div>
-                        </div>
-
-                        
-                    </div>
-                    <div class="level-item">
-                        <p>@product.Value</p>
-                    </div>
-                </div>
-            }
-
-            <div class="has-text-right">
-                <a class="button is-text" asp-page="/Index">Wanna buy more</a>
-                <a class="button is-success" asp-page="/Checkout/CustomerInformation">Checkout</a>
-            </div>
-        </div>
+        <partial name="_CartPartial" model="@Model.Cart"/>
     </div>
 </div>
 
@@ -59,37 +17,43 @@
             let stockId = event.target.dataset.stockId;
             axios.post("/Cart/AddOne/" + stockId).then(res => 
                 {
-                    let id = "stock-" + stockId;
-                    let container = document.getElementById(id);
-
-                    let quantity = parseInt(container.innerText)
-
-                    container.innerText = quantity + 1;
+                    updateCart();
                 }).catch(error => alert(error));
         }
 
         function removeOneFromCart(event) {
             let stockId = event.target.dataset.stockId;
-            axios.post("/Cart/RemoveOne/" + stockId).then(res => 
-                {
-                    let id = "stock-" + stockId;
-                    let container = document.getElementById(id);
-
-                    let quantity = parseInt(container.innerText)
-
-                    container.innerText = quantity - 1;
-                }).catch(error => alert(error));
+            removeFromCart(stockId, 1);
         }
 
         function removeAllFromCart(event) {
             let stockId = event.target.dataset.stockId;
-            axios.post("/Cart/RemoveAll/" + stockId).then(res => 
-                {
-                    let id = "product-" + stockId;
-                    let container = document.getElementById(id);
+            let id = "stock-" + stockId;
+            let container = document.getElementById(id);
+            let quantity = parseInt(container.innerText);
 
-                container.outerHTML = "";
+            removeFromCart(stockId, quantity);
+        }
+
+        function removeFromCart(stockId, quantity) {
+            axios.post("/Cart/RemoveProduct/" + stockId + "/" + quantity).then(res => 
+                {
+                    updateCart();
                 }).catch(error => alert(error));
+        }
+
+        function updateCart() {
+            //axios.get("/Cart/GetCartComponent").then(res => {
+            //    let html = res.data;
+            //    let el = document.getElementById("cart-nav");
+            //    el.outerHTML = html;
+            //});
+
+            axios.get("/Cart/GetCartMain").then(res => {
+                let html = res.data;
+                let el = document.getElementById("cart-main");
+                el.outerHTML = html;
+            })
         }
     </script>
 }

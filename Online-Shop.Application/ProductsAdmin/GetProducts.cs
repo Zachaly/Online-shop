@@ -1,9 +1,9 @@
-﻿using Online_shop.DataBase;
+﻿using Online_shop.Database;
 
 namespace Online_Shop.Application.ProductsAdmin
 {
     /// <summary>
-    /// Gets all products in database
+    /// Gets all products in Database
     /// </summary>
     public class GetProducts
     {
