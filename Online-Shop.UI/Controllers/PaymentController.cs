@@ -18,7 +18,8 @@ namespace Online_Shop.UI.Controllers
     {
         [HttpPost]
         public async Task<ActionResult> Create(PaymentIntentCreateRequest request,
-            [FromServices] GetCartOrder getCartOrder, [FromServices] CreateOrder createOrder)
+            [FromServices] Application.Cart.GetOrder getCartOrder,
+            [FromServices] CreateOrder createOrder)
         {
             var cartOrder = getCartOrder.Execute();
 

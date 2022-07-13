@@ -14,7 +14,7 @@ namespace Online_Shop.UI.Controllers
             => Ok(getOrders.Execute(status));
 
         [HttpGet("{id}")]
-        public IActionResult GetOrder(int id, [FromServices] GetAdminOrder getOrder) 
+        public IActionResult GetOrder(int id, [FromServices] GetOrder getOrder) 
             => Ok(getOrder.Execute(id));
 
         [HttpPut("{id}")]

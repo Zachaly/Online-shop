@@ -1,0 +1,114 @@
+﻿using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
+using Online_shop.Domain.Models;
+using Online_Shop.Application.Infrastructure;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Online_Shop.UI.Infrastructure
+{
+    public class SessionManager : ISessionManager
+    {
+        private readonly ISession _session;
+
+        public SessionManager(IHttpContextAccessor httpContextAccessor)
+        {
+            _session = httpContextAccessor.HttpContext.Session;
+        }
+
+        public void AddCustomerInformation(CustomerInformation customerInformation)
+        {
+            var customerInfo = JsonConvert.SerializeObject(customerInformation);
+
+            _session.SetString("customer-info", customerInfo);
+        }
+
+        public void AddProductToCart(int stockId, int quantity)
+        {
+            var cartString = _session.GetString("Cart");
+            var cartList = new List<CartProduct>();
+
+            if (!string.IsNullOrEmpty(cartString))
+            {
+                cartList = JsonConvert.DeserializeObject<List<CartProduct>>(cartString);
+            }
+
+            if (cartList.Any(stock => stock.StockId == stockId))
+            {
+                cartList.Find(stock => stock.StockId == stockId).Quantity += quantity;
+            }
+            else
+            {
+                cartList.Add(new CartProduct
+                {
+                    Quantity = quantity,
+                    StockId = stockId
+                });
+            }
+
+            var requestString = JsonConvert.SerializeObject(cartList);
+
+            _session.SetString("Cart", requestString);
+        }
+
+        public List<CartProduct> GetCartProducts()
+        {
+            var cartString = _session.GetString("Cart");
+
+            if (string.IsNullOrEmpty(cartString))
+            {
+                return null;
+            }
+
+            return JsonConvert.DeserializeObject<List<CartProduct>>(cartString);
+        }
+
+        public CustomerInformation GetCustomerInformation()
+        {
+            var customerInfoString = _session.GetString("customer-info");
+
+            if (string.IsNullOrEmpty(customerInfoString))
+            {
+                return null;
+            }
+
+            return JsonConvert.DeserializeObject<CustomerInformation>(customerInfoString);
+        }
+
+        public string GetId() => _session.Id;
+
+        public bool RemoveProductFromCart(int stockId, int quantity, bool all = false)
+        {
+            var cartString = _session.GetString("Cart");
+            var cartList = new List<CartProduct>();
+
+            if (string.IsNullOrEmpty(cartString))
+            {
+                return true;
+            }
+
+            cartList = JsonConvert.DeserializeObject<List<CartProduct>>(cartString);
+
+            if (!cartList.Any(stock => stock.StockId == stockId))
+            {
+                return true;
+            }
+
+            cartList.Find(stock => stock.StockId == stockId).Quantity -= quantity;
+
+            if (all)
+            {
+                cartList.Remove(cartList.First(stock => stock.StockId == stockId));
+            }
+
+            var requestString = JsonConvert.SerializeObject(cartList);
+
+            _session.SetString("Cart", requestString);
+
+            return false;
+        }
+    }
+}

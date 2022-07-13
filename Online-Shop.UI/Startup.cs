@@ -6,6 +6,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Online_shop.DataBase;
+using Online_Shop.Application.Infrastructure;
+using Online_Shop.UI.Infrastructure;
 using Stripe;
 using System;
 
@@ -69,7 +71,7 @@ namespace Online_Shop.UI
 
             StripeConfiguration.ApiKey = Configuration.GetSection("Stripe")["SecretKey"];
 
-            services.AddHttpContextAccessor();
+            services.AddApplicationInfrastucture();
             services.AddApplicationServices();
         }
 

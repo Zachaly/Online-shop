@@ -10,8 +10,8 @@ namespace Online_Shop.UI.Controllers
     public class UsersController : Controller
     {
         [HttpPost("")]
-        public async Task<IActionResult> CreateUser([FromBody] CreateUser.Request request,
-            [FromServices] CreateUser createUser) 
+        public async Task<IActionResult> CreateUser([FromBody] CreateManager.Request request,
+            [FromServices] CreateManager createUser) 
             => Ok(await createUser.ExecuteAsync(request));
         
         [HttpGet("")]

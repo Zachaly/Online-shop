@@ -5,11 +5,11 @@ namespace Online_Shop.Application.ProductsAdmin
     /// <summary>
     /// Gets all products in database
     /// </summary>
-    public class GetAdminProducts
+    public class GetProducts
     {
         private AppDbContext _dbContext;
 
-        public GetAdminProducts(AppDbContext dbContext)
+        public GetProducts(AppDbContext dbContext)
         {
             _dbContext = dbContext;
         }

@@ -21,23 +21,23 @@ namespace Microsoft.Extensions.DependencyInjection
             @this.AddTransient<AddToCart>();
             @this.AddTransient<GetCart>();
             @this.AddTransient<GetCustomerInformation>();
-            @this.AddTransient<GetCartOrder>();
+            @this.AddTransient<Online_Shop.Application.Cart.GetOrder>();
             @this.AddTransient<RemoveFromCart>();
 
             @this.AddTransient<CreateOrder>();
-            @this.AddTransient<GetOrder>();
+            @this.AddTransient<Online_Shop.Application.Orders.GetOrder>();
 
-            @this.AddTransient<GetAdminOrder>();
+            @this.AddTransient<Online_Shop.Application.OrdersAdmin.GetOrder>();
             @this.AddTransient<GetOrders>();
             @this.AddTransient<UpdateOrder>();
 
-            @this.AddTransient<GetProduct>();
-            @this.AddTransient<GetProducts>();
+            @this.AddTransient<Online_Shop.Application.Products.GetProduct>();
+            @this.AddTransient<Online_Shop.Application.Products.GetProducts>();
 
             @this.AddTransient<CreateProduct>();
             @this.AddTransient<DeleteProduct>();
-            @this.AddTransient<GetAdminProduct>();
-            @this.AddTransient<GetAdminProducts>();
+            @this.AddTransient<Online_Shop.Application.ProductsAdmin.GetProduct>();
+            @this.AddTransient<Online_Shop.Application.ProductsAdmin.GetProducts>();
             @this.AddTransient<UpdateProduct>();
 
             @this.AddTransient<CreateStock>();
@@ -45,7 +45,7 @@ namespace Microsoft.Extensions.DependencyInjection
             @this.AddTransient<GetStock>();
             @this.AddTransient<UpdateStock>();
 
-            @this.AddTransient<CreateUser>();
+            @this.AddTransient<CreateManager>();
             @this.AddTransient<GetUsers>();
             @this.AddTransient<DeleteUser>();
             

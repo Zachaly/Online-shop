@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Online_shop.DataBase;
 using Online_shop.Domain.Models;
+using Online_Shop.Application.Infrastructure;
 using System.Text;
 
 namespace Online_Shop.Application.Cart
@@ -12,25 +13,23 @@ namespace Online_Shop.Application.Cart
     /// </summary>
     public class GetCart
     {
-        private ISession _session;
+        private ISessionManager _sessionManager;
         private AppDbContext _dbContext;
 
-        public GetCart(IHttpContextAccessor httpAccessor, AppDbContext dbContext)
+        public GetCart(ISessionManager sessionManager, AppDbContext dbContext)
         {
-            _session = httpAccessor.HttpContext.Session;
+            _sessionManager = sessionManager;
             _dbContext = dbContext;
         }
 
         public IEnumerable<Response> Execute()
         {
-            var cartString = _session.GetString("Cart");
+            var cartList = _sessionManager.GetCartProducts();
 
-            if (string.IsNullOrEmpty(cartString))
+            if(cartList is null)
             {
                 return Enumerable.Empty<Response>();
             }
-
-            var cartList = JsonConvert.DeserializeObject<List<CartProduct>>(cartString);
 
             // added AsEnumerable() because without it Linq goes nuts and throws an error
             var response = _dbContext.Stock.Include(stock => stock.Product).AsEnumerable().

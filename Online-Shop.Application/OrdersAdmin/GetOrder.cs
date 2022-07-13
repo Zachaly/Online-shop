@@ -6,11 +6,11 @@ namespace Online_Shop.Application.OrdersAdmin
     /// <summary>
     /// Gets max ammount of info about order for admin usage
     /// </summary>
-    public class GetAdminOrder
+    public class GetOrder
     {
         private AppDbContext _dbContext;
 
-        public GetAdminOrder(AppDbContext dbContext)
+        public GetOrder(AppDbContext dbContext)
         {
             _dbContext = dbContext;
         }

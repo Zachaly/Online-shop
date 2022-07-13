@@ -57,7 +57,7 @@
                                   <div class="field-body">
                                     <div class="field is-narrow">
                                       <div class="control">
-                                        <input asp-for="CartViewModel.Quantity" class="input" value="1"/>
+                                        <input asp-for="CartViewModel.Quantity" class="input" value="1" min="1"/>
                                         @foreach(var stock in Model.Product.Stock)
                                         {
                                             if (stock.Quantity <= 10)
@@ -94,6 +94,7 @@
 </div>
 
 <script>
+
     function toggleStock(event){
         document.querySelectorAll(".low-stock").forEach(stock => stock.classList.add("is-hidden"));
 

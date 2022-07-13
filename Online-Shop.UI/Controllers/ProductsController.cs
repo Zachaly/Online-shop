@@ -10,10 +10,10 @@ namespace Online_Shop.UI.Controllers
     public class ProductsController : Controller
     {
         [HttpGet("")]
-        public IActionResult GetProducts([FromServices] GetAdminProducts getProducts) => Ok(getProducts.Execute());
+        public IActionResult GetProducts([FromServices] GetProducts getProducts) => Ok(getProducts.Execute());
 
         [HttpGet("{id}")]
-        public IActionResult GetProduct(int id, [FromServices] GetAdminProduct getProduct) 
+        public IActionResult GetProduct(int id, [FromServices] GetProduct getProduct) 
             => Ok(getProduct.Execute(id));
 
         [HttpPost("")]

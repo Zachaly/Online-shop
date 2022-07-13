@@ -6,11 +6,11 @@ namespace Online_Shop.Application.UsersAdmin
     /// <summary>
     /// Creates manager user
     /// </summary>
-    public class CreateUser
+    public class CreateManager
     {
         private UserManager<IdentityUser> _userManager;
 
-        public CreateUser(UserManager<IdentityUser> userManager)
+        public CreateManager(UserManager<IdentityUser> userManager)
         {
             _userManager = userManager;
         }

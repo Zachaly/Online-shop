@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Online_shop.Domain.Models;
+using Online_Shop.Application.Infrastructure;
 using System.ComponentModel.DataAnnotations;
 
 namespace Online_Shop.Application.Cart
@@ -10,12 +11,12 @@ namespace Online_Shop.Application.Cart
     /// </summary>
     public class AddCustomerInformation
     {
-        private ISession _session;
+        private ISessionManager _sessionManager;
 
         
-        public AddCustomerInformation(IHttpContextAccessor httpAccessor)
+        public AddCustomerInformation(ISessionManager sessionManager)
         {
-            _session = httpAccessor.HttpContext.Session;
+            _sessionManager = sessionManager;
         }
 
         public void Execute(Request request)
@@ -31,9 +32,7 @@ namespace Online_Shop.Application.Cart
                 PostCode = request.PostCode
             };
             
-            var customerInfo = JsonConvert.SerializeObject(customerInformation);
-
-            _session.SetString("customer-info", customerInfo);
+            _sessionManager.AddCustomerInformation(customerInformation);
         }
 
         public class Request

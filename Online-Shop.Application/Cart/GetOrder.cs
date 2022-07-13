@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Online_shop.DataBase;
 using Online_shop.Domain.Models;
+using Online_Shop.Application.Infrastructure;
 using System.Text;
 
 namespace Online_Shop.Application.Cart
@@ -10,37 +11,33 @@ namespace Online_Shop.Application.Cart
     /// <summary>
     /// Gets information from session needed in creating an order
     /// </summary>
-    public class GetCartOrder
+    public class GetOrder
     {
-        private ISession _session;
+        private ISessionManager _sessionManager;
         private AppDbContext _dbContext;
 
-        public GetCartOrder(IHttpContextAccessor httpAccessor, AppDbContext dbContext)
+        public GetOrder(ISessionManager sessionManager, AppDbContext dbContext)
         {
-            _session = httpAccessor.HttpContext.Session;
+            _sessionManager = sessionManager;
             _dbContext = dbContext;
         }
 
         public Response Execute()
         {
-            var cartString = _session.GetString("Cart");
-
-            var cartList = JsonConvert.DeserializeObject<List<CartProduct>>(cartString);
+            var cart = _sessionManager.GetCartProducts();
 
             var productList = _dbContext.Stock.Include(x => x.Product).AsEnumerable().
-                Where(stock => cartList.Any(item => item.StockId == stock.Id)).
+                Where(stock => cart.Any(item => item.StockId == stock.Id)).
                 Select(stock => new Product
                 {
                     Name = stock.Product.Name,
                     ProductId = stock.ProductId,
-                    Quantity = cartList.FirstOrDefault(x => x.StockId == stock.Id).Quantity,
+                    Quantity = cart.FirstOrDefault(x => x.StockId == stock.Id).Quantity,
                     StockId = stock.Id,
                     Value = (int)(stock.Product.Value * 100),
                 }).ToList();
 
-            var customerInfoString = _session.GetString("customer-info");
-
-            var customerInfo = JsonConvert.DeserializeObject<Online_shop.Domain.Models.CustomerInformation>(customerInfoString);
+            var customerInfo = _sessionManager.GetCustomerInformation();
 
             return new Response
             {
