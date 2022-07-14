@@ -1,10 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using Online_shop.Database;
-using Online_shop.Domain.Models;
-using Online_Shop.Domain.Infrastructure;
-using System.Text;
+﻿using Online_Shop.Domain.Infrastructure;
 
 namespace Online_Shop.Application.Cart
 {
@@ -13,7 +7,7 @@ namespace Online_Shop.Application.Cart
     /// </summary>
     public class GetOrder
     {
-        private ISessionManager _sessionManager;
+        private readonly ISessionManager _sessionManager;
 
         public GetOrder(ISessionManager sessionManager)
         {

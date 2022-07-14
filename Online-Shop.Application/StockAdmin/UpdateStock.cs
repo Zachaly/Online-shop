@@ -1,5 +1,5 @@
-﻿using Online_shop.Database;
-using Online_shop.Domain.Models;
+﻿using Online_Shop.Domain.Infrastructure;
+using Online_Shop.Domain.Models;
 
 namespace Online_Shop.Application.StockAdmin
 {
@@ -8,11 +8,11 @@ namespace Online_Shop.Application.StockAdmin
     /// </summary>
     public class UpdateStock
     {
-        private AppDbContext _dbContext;
+        private readonly IStockManager _stockManager;
 
-        public UpdateStock(AppDbContext dbContext)
+        public UpdateStock(IStockManager stockManager)
         {
-            _dbContext = dbContext;
+            _stockManager = stockManager;
         }
 
         public async Task<Response> ExecuteAsync(Request request)
@@ -30,9 +30,7 @@ namespace Online_Shop.Application.StockAdmin
                 });
             }
             
-            _dbContext.UpdateRange(stocks);
-
-            await _dbContext.SaveChangesAsync();
+            await _stockManager.UpdateStocks(stocks);
 
             return new Response
             {

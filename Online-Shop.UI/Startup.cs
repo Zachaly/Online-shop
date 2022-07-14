@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Online_shop.Database;
+using Online_Shop.Database;
 using Online_Shop.Domain.Infrastructure;
 using Online_Shop.UI.Infrastructure;
 using Stripe;

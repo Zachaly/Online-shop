@@ -1,5 +1,5 @@
-﻿using Online_shop.Database;
-using Online_shop.Domain.Models;
+﻿using Online_Shop.Domain.Infrastructure;
+using Online_Shop.Domain.Models;
 
 namespace Online_Shop.Application.StockAdmin
 {
@@ -8,16 +8,15 @@ namespace Online_Shop.Application.StockAdmin
     /// </summary>
     public class CreateStock
     {
-        private AppDbContext _dbContext;
+        private readonly IStockManager _stockManager;
 
-        public CreateStock(AppDbContext dbContext)
+        public CreateStock(IStockManager stockManager)
         {
-            _dbContext = dbContext;
+            _stockManager = stockManager;
         }
 
         public async Task<Response> ExecuteAsync(Request request)
         {
-
             var stock = new Stock
             {
                 ProductId = request.ProductId,
@@ -25,9 +24,7 @@ namespace Online_Shop.Application.StockAdmin
                 Quantity = request.Quantity
             };
 
-            _dbContext.Stock.Add(stock);
-
-            await _dbContext.SaveChangesAsync();
+            await _stockManager.AddStock(stock);
 
             return new Response
             {

@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Online_shop.Database;
+﻿using Online_Shop.Domain.Infrastructure;
 
 namespace Online_Shop.Application.Products
 {
@@ -8,21 +7,21 @@ namespace Online_Shop.Application.Products
     /// </summary>
     public class GetProducts
     {
-        private AppDbContext _dbContext;
+        private readonly IProductManager _productManager;
 
-        public GetProducts(AppDbContext dbContext)
+        public GetProducts(IProductManager productManager)
         {
-            _dbContext = dbContext;
+            _productManager = productManager;
         }
 
         public IEnumerable<ProductViewModel> Execute()
-            => _dbContext.Products.Include(db => db.Stock).Select(product => new ProductViewModel
-                {
-                    Name = product.Name,
-                    Description = product.Description,
-                    Value = $"{product.Value.ToString("N2")}$",
-                    StockCount = product.Stock.Sum(stock => stock.Quantity)
-                }).ToList();
+            => _productManager.GetProducsWithStock(product => new ProductViewModel
+            {
+                Name = product.Name,
+                Description = product.Description,
+                Value = product.Value.GetPriceString(),
+                StockCount = product.Stock.Sum(stock => stock.Quantity)
+            });
 
         public class ProductViewModel
         {

@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Online_shop.Database.Migrations
+namespace Online_Shop.Database.Migrations
 {
     public partial class OrderStock : Migration
     {

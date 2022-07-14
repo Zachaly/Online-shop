@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Online_shop.Domain.Models;
+using Online_Shop.Domain.Models;
 
-namespace Online_shop.Database
+namespace Online_Shop.Database
 {
     public class AppDbContext : IdentityDbContext
     {

@@ -1,4 +1,4 @@
-﻿using Online_shop.Database;
+﻿using Online_Shop.Domain.Infrastructure;
 
 namespace Online_Shop.Application.ProductsAdmin
 {
@@ -7,18 +7,14 @@ namespace Online_Shop.Application.ProductsAdmin
     /// </summary>
     public class DeleteProduct
     {
-        private AppDbContext _dbContext;
+        private readonly IProductManager _productManager;
 
-        public DeleteProduct(AppDbContext dbContext)
+        public DeleteProduct(IProductManager productManager)
         {
-            _dbContext = dbContext;
+            _productManager = productManager;
         }
 
         public async Task<bool> ExecuteAsync(int productId)
-        {
-            _dbContext.Products.Remove(_dbContext.Products.FirstOrDefault(product => product.Id == productId));
-
-            return await _dbContext.SaveChangesAsync() > 0;
-        }
+            => await _productManager.DeleteProductById(productId);
     }
 }

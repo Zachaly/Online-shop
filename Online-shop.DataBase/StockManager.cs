@@ -1,12 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Online_shop.Database;
-using Online_shop.Domain.Infrastructure;
-using Online_shop.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Online_Shop.Domain.Infrastructure;
+using Online_Shop.Domain.Models;
 
 namespace Online_Shop.Database
 {
@@ -17,6 +11,22 @@ namespace Online_Shop.Database
         public StockManager(AppDbContext dbContext)
         {
             _dbContext = dbContext;
+        }
+
+        public Task AddStock(Stock stock)
+        {
+            _dbContext.Stock.Add(stock);
+
+            return _dbContext.SaveChangesAsync();
+        }
+
+        public Task DeleteStockById(int id)
+        {
+            var stock = _dbContext.Stock.FirstOrDefault(stock => stock.Id == id);
+
+            _dbContext.Stock.Remove(stock);
+
+            return _dbContext.SaveChangesAsync();
         }
 
         public bool EnoughtStock(int stockId, int quantity)
@@ -53,6 +63,28 @@ namespace Online_Shop.Database
             await _dbContext.SaveChangesAsync();
         }
 
+        public Task RefillStocks()
+        {
+            var stocksOnHold = _dbContext.StocksOnHold.Where(stock => stock.ExpireDate < DateTime.Now).ToList();
+
+            if (stocksOnHold.Count > 0)
+            {
+                var stockToRefill = _dbContext.Stock.AsEnumerable().
+                    Where(stock => stocksOnHold.Any(x => x.StockId == stock.Id)).ToList();
+
+                foreach (var stock in stockToRefill)
+                {
+                    stock.Quantity += stocksOnHold.FirstOrDefault(x => x.StockId == stock.Id).Quantity;
+                }
+
+                _dbContext.RemoveRange(stocksOnHold);
+
+                return _dbContext.SaveChangesAsync();
+            }
+
+            return Task.CompletedTask;
+        }
+
         public Task RemoveStockFromHold(int stockId, string sessionId, int quantity)
         {
             var stockOnHold = _dbContext.StocksOnHold.
@@ -68,6 +100,22 @@ namespace Online_Shop.Database
             {
                 _dbContext.Remove(stockOnHold);
             }
+
+            return _dbContext.SaveChangesAsync();
+        }
+
+        public Task RemoveStockFromHold(string sessionId)
+        {
+            var stocksOnHold = _dbContext.StocksOnHold.Where(stock => stock.SessionId == sessionId).ToList();
+
+            _dbContext.RemoveRange(stocksOnHold);
+
+            return _dbContext.SaveChangesAsync();
+        }
+
+        public Task UpdateStocks(IEnumerable<Stock> stocks)
+        {
+            _dbContext.UpdateRange(stocks);
 
             return _dbContext.SaveChangesAsync();
         }

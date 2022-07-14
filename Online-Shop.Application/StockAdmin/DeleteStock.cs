@@ -1,4 +1,4 @@
-﻿using Online_shop.Database;
+﻿using Online_Shop.Domain.Infrastructure;
 
 namespace Online_Shop.Application.StockAdmin
 {
@@ -7,22 +7,16 @@ namespace Online_Shop.Application.StockAdmin
     /// </summary>
     public class DeleteStock
     {
-        private AppDbContext _dbContext;
+        private readonly IStockManager _stockManager;
 
-        public DeleteStock(AppDbContext dbContext)
+        public DeleteStock(IStockManager stockManager)
         {
-            _dbContext = dbContext;
+            _stockManager = stockManager;
         }
 
         public async Task<bool> ExecuteAsync(int id)
         {
-
-            var stock = _dbContext.Stock.FirstOrDefault(stock => stock.Id == id);
-
-            _dbContext.Stock.Remove(stock);
-
-            await _dbContext.SaveChangesAsync();
-
+            await _stockManager.DeleteStockById(id);
             return true;
         }
     }

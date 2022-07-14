@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
+﻿using Online_Shop.Domain.Infrastructure;
 
 namespace Online_Shop.Application.UsersAdmin
 {
@@ -8,30 +7,21 @@ namespace Online_Shop.Application.UsersAdmin
     /// </summary>
     public class CreateManager
     {
-        private UserManager<IdentityUser> _userManager;
+        private readonly IUserManager _userManager;
 
-        public CreateManager(UserManager<IdentityUser> userManager)
+        public CreateManager(IUserManager userManager)
         {
             _userManager = userManager;
         }
 
         public async Task<Response> ExecuteAsync(Request request)
         {
-            var manager = new IdentityUser
-            {
-                UserName = request.UserName,
-            };
-
-            await _userManager.CreateAsync(manager);
-
-            var managerClaim = new Claim("Role", "Manager");
-
-            await _userManager.AddClaimAsync(manager, managerClaim);
+            var id = await _userManager.CreateManager(request.UserName, "zaq1@WSX");
 
             return new Response
             {
-                Id = manager.Id,
-                Username = manager.UserName,
+                Id = id,
+                Username = request.UserName,
             };
         }
 

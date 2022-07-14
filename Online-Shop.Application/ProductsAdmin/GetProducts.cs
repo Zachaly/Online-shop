@@ -1,4 +1,4 @@
-﻿using Online_shop.Database;
+﻿using Online_Shop.Domain.Infrastructure;
 
 namespace Online_Shop.Application.ProductsAdmin
 {
@@ -7,21 +7,21 @@ namespace Online_Shop.Application.ProductsAdmin
     /// </summary>
     public class GetProducts
     {
-        private AppDbContext _dbContext;
+        private readonly IProductManager _productManager;
 
-        public GetProducts(AppDbContext dbContext)
+        public GetProducts(IProductManager productManager)
         {
-            _dbContext = dbContext;
+            _productManager = productManager;
         }
 
         public IEnumerable<ProductViewModel> Execute()
-            => _dbContext.Products.ToList().Select(product => new ProductViewModel
-                {
-                    Id = product.Id,
-                    Name = product.Name,
-                    Description = product.Description,
-                    Value = product.Value,
-                });
+            => _productManager.GetProducts(product => new ProductViewModel
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Value = product.Value,
+            });
 
         public class ProductViewModel
         {

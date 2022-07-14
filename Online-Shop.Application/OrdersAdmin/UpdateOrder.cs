@@ -1,4 +1,4 @@
-﻿using Online_shop.Database;
+﻿using Online_Shop.Domain.Infrastructure;
 
 namespace Online_Shop.Application.OrdersAdmin
 {
@@ -7,20 +7,13 @@ namespace Online_Shop.Application.OrdersAdmin
     /// </summary>
     public class UpdateOrder
     {
-        private AppDbContext _dbContext;
+        private readonly IOrderManager _orderManager;
 
-        public UpdateOrder(AppDbContext dbContext)
+        public UpdateOrder(IOrderManager orderManager)
         {
-            _dbContext = dbContext;
+            _orderManager = orderManager;
         }
 
-        public async Task<bool> ExecuteAsync(int id)
-        {
-            var order = _dbContext.Orders.FirstOrDefault(order => order.Id == id);
-
-            order.Status += 1;
-
-            return await _dbContext.SaveChangesAsync() > 0;
-        }
+        public async Task<bool> ExecuteAsync(int id) => await _orderManager.AdvanceOrder(id);
     }
 }

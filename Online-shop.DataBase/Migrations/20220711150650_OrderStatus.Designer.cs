@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Online_shop.Database;
+using Online_Shop.Database;
 
 #nullable disable
 
-namespace Online_shop.Database.Migrations
+namespace Online_Shop.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     [Migration("20220711150650_OrderStatus")]
@@ -222,7 +222,7 @@ namespace Online_shop.Database.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Online_shop.Domain.Models.Order", b =>
+            modelBuilder.Entity("Online_Shop.Domain.Models.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -274,7 +274,7 @@ namespace Online_shop.Database.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("Online_shop.Domain.Models.OrderStock", b =>
+            modelBuilder.Entity("Online_Shop.Domain.Models.OrderStock", b =>
                 {
                     b.Property<int>("StockId")
                         .HasColumnType("int");
@@ -292,7 +292,7 @@ namespace Online_shop.Database.Migrations
                     b.ToTable("OrderStocks");
                 });
 
-            modelBuilder.Entity("Online_shop.Domain.Models.Product", b =>
+            modelBuilder.Entity("Online_Shop.Domain.Models.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -316,7 +316,7 @@ namespace Online_shop.Database.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("Online_shop.Domain.Models.Stock", b =>
+            modelBuilder.Entity("Online_Shop.Domain.Models.Stock", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -341,7 +341,7 @@ namespace Online_shop.Database.Migrations
                     b.ToTable("Stock");
                 });
 
-            modelBuilder.Entity("Online_shop.Domain.Models.StockOnHold", b =>
+            modelBuilder.Entity("Online_Shop.Domain.Models.StockOnHold", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -420,15 +420,15 @@ namespace Online_shop.Database.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Online_shop.Domain.Models.OrderStock", b =>
+            modelBuilder.Entity("Online_Shop.Domain.Models.OrderStock", b =>
                 {
-                    b.HasOne("Online_shop.Domain.Models.Order", "Order")
+                    b.HasOne("Online_Shop.Domain.Models.Order", "Order")
                         .WithMany("OrderStocks")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Online_shop.Domain.Models.Stock", "Stock")
+                    b.HasOne("Online_Shop.Domain.Models.Stock", "Stock")
                         .WithMany("OrderStocks")
                         .HasForeignKey("StockId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -439,9 +439,9 @@ namespace Online_shop.Database.Migrations
                     b.Navigation("Stock");
                 });
 
-            modelBuilder.Entity("Online_shop.Domain.Models.Stock", b =>
+            modelBuilder.Entity("Online_Shop.Domain.Models.Stock", b =>
                 {
-                    b.HasOne("Online_shop.Domain.Models.Product", "Product")
+                    b.HasOne("Online_Shop.Domain.Models.Product", "Product")
                         .WithMany("Stock")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -450,9 +450,9 @@ namespace Online_shop.Database.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Online_shop.Domain.Models.StockOnHold", b =>
+            modelBuilder.Entity("Online_Shop.Domain.Models.StockOnHold", b =>
                 {
-                    b.HasOne("Online_shop.Domain.Models.Stock", "Stock")
+                    b.HasOne("Online_Shop.Domain.Models.Stock", "Stock")
                         .WithMany()
                         .HasForeignKey("StockId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -461,17 +461,17 @@ namespace Online_shop.Database.Migrations
                     b.Navigation("Stock");
                 });
 
-            modelBuilder.Entity("Online_shop.Domain.Models.Order", b =>
+            modelBuilder.Entity("Online_Shop.Domain.Models.Order", b =>
                 {
                     b.Navigation("OrderStocks");
                 });
 
-            modelBuilder.Entity("Online_shop.Domain.Models.Product", b =>
+            modelBuilder.Entity("Online_Shop.Domain.Models.Product", b =>
                 {
                     b.Navigation("Stock");
                 });
 
-            modelBuilder.Entity("Online_shop.Domain.Models.Stock", b =>
+            modelBuilder.Entity("Online_Shop.Domain.Models.Stock", b =>
                 {
                     b.Navigation("OrderStocks");
                 });

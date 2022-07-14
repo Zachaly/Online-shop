@@ -1,12 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Online_shop.Domain.Infrastructure;
-using Online_Shop.Database;
 using Online_Shop.Domain.Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Online_Shop.Database;
 
 namespace Online_Shop.UI.Infrastructure
 {
@@ -16,7 +10,10 @@ namespace Online_Shop.UI.Infrastructure
         {
             @this.AddHttpContextAccessor();
             @this.AddTransient<ISessionManager, SessionManager>();
-            @this.AddScoped<IStockManager, StockManager>();
+            @this.AddTransient<IStockManager, StockManager>();
+            @this.AddTransient<IProductManager, ProductManager>();
+            @this.AddTransient<IOrderManager, OrderManager>();
+            @this.AddTransient<IUserManager, UserManager>();
 
             return @this;
         }

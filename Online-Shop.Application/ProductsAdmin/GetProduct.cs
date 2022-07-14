@@ -1,4 +1,4 @@
-﻿using Online_shop.Database;
+﻿using Online_Shop.Domain.Infrastructure;
 
 namespace Online_Shop.Application.ProductsAdmin
 {
@@ -7,16 +7,16 @@ namespace Online_Shop.Application.ProductsAdmin
     /// </summary>
     public class GetProduct
     {
-        private AppDbContext _dbContext;
+        private readonly IProductManager _productManager;
 
-        public GetProduct(AppDbContext dbContext)
+        public GetProduct(IProductManager productManager)
         {
-            _dbContext = dbContext;
+            _productManager = productManager;
         }
 
         public ProductViewModel Execute(int productId)
         {
-            var product = _dbContext.Products.FirstOrDefault(prod => prod.Id == productId);
+            var product = _productManager.GetProductById(productId);
 
             return new ProductViewModel 
             {
@@ -26,7 +26,6 @@ namespace Online_Shop.Application.ProductsAdmin
                 Value = product.Value
             };
         }
-
 
         public class ProductViewModel
         {

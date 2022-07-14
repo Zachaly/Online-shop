@@ -1,5 +1,5 @@
-﻿using Online_shop.Database;
-using Online_shop.Domain.Enums;
+﻿using Online_Shop.Domain.Enums;
+using Online_Shop.Domain.Infrastructure;
 
 namespace Online_Shop.Application.OrdersAdmin
 {
@@ -8,21 +8,20 @@ namespace Online_Shop.Application.OrdersAdmin
     /// </summary>
     public class GetOrders
     {
-        private AppDbContext _dbContext;
+        private readonly IOrderManager _orderManager;
 
-        public GetOrders(AppDbContext dbContext)
+        public GetOrders(IOrderManager orderManager)
         {
-            _dbContext = dbContext;
+            _orderManager = orderManager;
         }
 
-        public IEnumerable<OrderModel> Execute(int status) 
-            => _dbContext.Orders.Where(order => order.Status == (OrderStatus)status).
-                Select(order => new OrderModel
-                {
-                    Id = order.Id,
-                    OrderEmail = order.Email,
-                    OrderReference = order.OrderReference
-                }).ToList();
+        public IEnumerable<OrderModel> Execute(int status)
+            => _orderManager.GetOrdersByStatus((OrderStatus)status, order => new OrderModel
+            {
+                Id = order.Id,
+                OrderEmail = order.Email,
+                OrderReference = order.OrderReference
+            });
 
         public class OrderModel
         {

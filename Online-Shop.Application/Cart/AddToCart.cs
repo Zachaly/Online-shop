@@ -1,11 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using Online_shop.Database;
-using Online_shop.Domain.Infrastructure;
-using Online_shop.Domain.Models;
-using Online_Shop.Domain.Infrastructure;
-using System.Text;
+﻿using Online_Shop.Domain.Infrastructure;
+using Online_Shop.Domain.Models;
 
 namespace Online_Shop.Application.Cart
 {
@@ -14,8 +8,8 @@ namespace Online_Shop.Application.Cart
     /// </summary>
     public class AddToCart
     {
-        private ISessionManager _sessionManager;
-        private IStockManager _stockManager;
+        private readonly ISessionManager _sessionManager;
+        private readonly IStockManager _stockManager;
 
         public AddToCart(ISessionManager sessionManager,IStockManager stockManager)
         {

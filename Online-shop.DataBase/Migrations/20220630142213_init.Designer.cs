@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Online_shop.Database;
+using Online_Shop.Database;
 
 #nullable disable
 
-namespace Online_shop.Database.Migrations
+namespace Online_Shop.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     [Migration("20220630142213_init")]
@@ -222,7 +222,7 @@ namespace Online_shop.Database.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Online_shop.Domain.Models.Product", b =>
+            modelBuilder.Entity("Online_Shop.Domain.Models.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

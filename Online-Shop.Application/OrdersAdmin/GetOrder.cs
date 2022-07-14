@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Online_shop.Database;
+﻿using Online_Shop.Domain.Infrastructure;
 
 namespace Online_Shop.Application.OrdersAdmin
 {
@@ -8,41 +7,37 @@ namespace Online_Shop.Application.OrdersAdmin
     /// </summary>
     public class GetOrder
     {
-        private AppDbContext _dbContext;
+        private readonly IOrderManager _orderManager;
 
-        public GetOrder(AppDbContext dbContext)
+        public GetOrder(IOrderManager orderManager)
         {
-            _dbContext = dbContext;
+            _orderManager = orderManager;
         }
 
         public Response Execute(int id)
-            => _dbContext.Orders.Where(order => order.Id == id).
-                Include(order => order.OrderStocks).
-                ThenInclude(orderStock => orderStock.Stock).
-                ThenInclude(stock => stock.Product).
-                Select(order => new Response 
+            => _orderManager.GetOrderById(id, order => new Response
+            {
+                Id = order.Id,
+                Reference = order.OrderReference,
+                StripeReference = order.StripeReference,
+
+                FirstName = order.FirstName,
+                LastName = order.LastName,
+                Address = order.Address,
+                City = order.City,
+                Email = order.Email,
+                PhoneNumber = order.PhoneNumber,
+                PostCode = order.PostCode,
+
+                Products = order.OrderStocks.Select(stock => new Product
                 {
-                    Id = order.Id,
-                    Reference = order.OrderReference,
-                    StripeReference = order.StripeReference,
-
-                    FirstName = order.FirstName,
-                    LastName = order.LastName,
-                    Address = order.Address,
-                    City = order.City,
-                    Email = order.Email,
-                    PhoneNumber = order.PhoneNumber,
-                    PostCode = order.PostCode,
-
-                    Products = order.OrderStocks.Select(stock => new Product
-                    {
-                        Name = stock.Stock.Product.Name,
-                        Description = stock.Stock.Product.Description,
-                        Quantity = stock.Quantity,
-                        StockDescription = stock.Stock.Description,
-                        Value = stock.Stock.Product.Value
-                    })
-                }).FirstOrDefault();
+                    Name = stock.Stock.Product.Name,
+                    Description = stock.Stock.Product.Description,
+                    Quantity = stock.Quantity,
+                    StockDescription = stock.Stock.Description,
+                    Value = stock.Stock.Product.Value
+                })
+            });
 
         public class Response
         {

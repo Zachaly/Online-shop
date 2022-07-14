@@ -1,11 +1,11 @@
-﻿using Online_shop.Domain.Enums;
+﻿using Online_Shop.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Online_shop.Domain.Models
+namespace Online_Shop.Domain.Models
 {
     public class Order
     {

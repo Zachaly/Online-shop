@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
-using Online_shop.Domain.Models;
+﻿using Online_Shop.Domain.Models;
 using Online_Shop.Domain.Infrastructure;
 using System.ComponentModel.DataAnnotations;
 
@@ -11,9 +9,8 @@ namespace Online_Shop.Application.Cart
     /// </summary>
     public class AddCustomerInformation
     {
-        private ISessionManager _sessionManager;
+        private readonly ISessionManager _sessionManager;
 
-        
         public AddCustomerInformation(ISessionManager sessionManager)
         {
             _sessionManager = sessionManager;

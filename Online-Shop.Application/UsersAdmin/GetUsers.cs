@@ -1,4 +1,5 @@
-﻿using Online_shop.Database;
+﻿using Microsoft.AspNetCore.Identity;
+using Online_Shop.Domain.Infrastructure;
 
 namespace Online_Shop.Application.UsersAdmin
 {
@@ -7,15 +8,15 @@ namespace Online_Shop.Application.UsersAdmin
     /// </summary>
     public class GetUsers
     {
-        private AppDbContext _dbContext;
+        private IUserManager _userManager;
 
-        public GetUsers(AppDbContext dbContext)
+        public GetUsers(IUserManager userManager)
         {
-            _dbContext = dbContext;
+            _userManager = userManager;
         }
 
         public IEnumerable<UserViewModel> Execute()
-            => _dbContext.Users.Where(user => user.UserName != "Admin").
+            => _userManager.GetUsers().Select(user => user as IdentityUser).
                 Select(user => new UserViewModel
                 {
                     Username = user.UserName,

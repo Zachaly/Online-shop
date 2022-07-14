@@ -1,5 +1,5 @@
-﻿using Online_shop.Database;
-using Online_shop.Domain.Models;
+﻿using Online_Shop.Domain.Infrastructure;
+using Online_Shop.Domain.Models;
 
 namespace Online_Shop.Application.ProductsAdmin
 {
@@ -8,11 +8,11 @@ namespace Online_Shop.Application.ProductsAdmin
     /// </summary>
     public class CreateProduct
     {
-        private AppDbContext _dbContext;
+        private readonly IProductManager _productManager;
 
-        public CreateProduct(AppDbContext dbContext)
+        public CreateProduct(IProductManager productManager)
         {
-            _dbContext = dbContext;
+            _productManager = productManager;
         }
 
         public async Task<Response> ExecuteAsync(Request request)
@@ -23,9 +23,8 @@ namespace Online_Shop.Application.ProductsAdmin
                 Description = request.Description,
                 Value = request.Value,
             };
-            _dbContext.Products.Add(product);
-
-            await _dbContext.SaveChangesAsync();
+            
+            await _productManager.AddProduct(product);
 
             return new Response
             {

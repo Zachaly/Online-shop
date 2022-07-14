@@ -1,10 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
-using Online_shop.Database;
-using Online_shop.Domain.Infrastructure;
-using Online_shop.Domain.Models;
-using Online_Shop.Domain.Infrastructure;
-using System.Text;
+﻿using Online_Shop.Domain.Infrastructure;
 
 namespace Online_Shop.Application.Cart
 {
@@ -13,8 +7,8 @@ namespace Online_Shop.Application.Cart
     /// </summary>
     public class RemoveFromCart
     {
-        private ISessionManager _sessionManager;
-        private IStockManager _stockManager;
+        private readonly ISessionManager _sessionManager;
+        private readonly IStockManager _stockManager;
 
         public RemoveFromCart(ISessionManager sessionManager, IStockManager stockManager)
         {

@@ -1,5 +1,4 @@
-﻿using Online_shop.Domain.Infrastructure;
-using Online_Shop.Domain.Infrastructure;
+﻿using Online_Shop.Domain.Infrastructure;
 
 namespace Online_Shop.Application.Cart
 {
@@ -8,7 +7,7 @@ namespace Online_Shop.Application.Cart
     /// </summary>
     public class GetCart
     {
-        private ISessionManager _sessionManager;
+        private readonly ISessionManager _sessionManager;
 
         public GetCart(ISessionManager sessionManager)
         {
@@ -24,7 +23,6 @@ namespace Online_Shop.Application.Cart
                     Value = item.Value.GetPriceString(),
                     RealValue = item.Value
                 });
-        
 
         public class Response
         {

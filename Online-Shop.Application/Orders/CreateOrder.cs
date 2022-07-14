@@ -1,5 +1,5 @@
-﻿using Online_shop.Database;
-using Online_shop.Domain.Models;
+﻿using Online_Shop.Domain.Infrastructure;
+using Online_Shop.Domain.Models;
 
 namespace Online_Shop.Application.Orders
 {
@@ -8,19 +8,17 @@ namespace Online_Shop.Application.Orders
     /// </summary>
     public class CreateOrder
     {
-        private AppDbContext _dbContext;
+        private readonly IOrderManager _orderManager;
+        private readonly IStockManager _stockManager;
 
-        public CreateOrder(AppDbContext dbContext)
+        public CreateOrder(IOrderManager orderManager, IStockManager stockManager)
         {
-            _dbContext = dbContext;
+            _orderManager = orderManager;
+            _stockManager = stockManager;
         }
 
         public async Task<bool> ExecuteAsync(Request request)
         {
-            var stocksOnHold = _dbContext.StocksOnHold.Where(stock => stock.SessionId == request.SessionId).ToList();
-
-            _dbContext.RemoveRange(stocksOnHold);
-
             var order = new Order
             {
                 FirstName = request.FirstName,
@@ -39,10 +37,14 @@ namespace Online_Shop.Application.Orders
                 OrderReference = CreateOrderReference()
             };
 
-            _dbContext.Orders.Add(order);
+            var success = await _orderManager.CreateOrder(order);
 
+            if (success)
+            {
+                await _stockManager.RemoveStockFromHold(request.SessionId);
+            }
 
-            return await _dbContext.SaveChangesAsync() > 0;
+            return success;
         }
 
         public string CreateOrderReference()
@@ -56,7 +58,7 @@ namespace Online_Shop.Application.Orders
             {
                 for (int i = 0; i < result.Length; i++)
                     result[i] = chars[random.Next(chars.Length)];
-            } while (_dbContext.Orders.ToList().Any(order => order.OrderReference == new string(result)));
+            } while (_orderManager.DoesOrderReferenceExist(new string(result)));
 
             return new string(result);
         }

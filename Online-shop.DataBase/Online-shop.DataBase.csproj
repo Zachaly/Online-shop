@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <RootNamespace>Online_shop.Database</RootNamespace>
+    <RootNamespace>Online_Shop.Database</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Online-shop.Domain\Online-shop.Domain.csproj" />
+    <ProjectReference Include="..\Online-shop.Domain\Online-Shop.Domain.csproj" />
   </ItemGroup>
 
 </Project>

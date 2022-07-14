@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Online_shop.Database;
+﻿using Online_Shop.Domain.Infrastructure;
 
 namespace Online_Shop.Application.Orders
 {
@@ -8,39 +7,35 @@ namespace Online_Shop.Application.Orders
     /// </summary>
     public class GetOrder
     {
-        private AppDbContext _dbContext;
+        private readonly IOrderManager _orderManager;
 
-        public GetOrder(AppDbContext dbContext)
+        public GetOrder(IOrderManager orderManager)
         {
-            _dbContext = dbContext;
+            _orderManager = orderManager;
         }
 
-        public Response Execute(string reference) 
-            => _dbContext.Orders.Where(order => order.OrderReference == reference).
-                Include(order => order.OrderStocks).
-                ThenInclude(order => order.Stock).
-                ThenInclude(stock => stock.Product).Select(order => new Response
+        public Response Execute(string reference)
+            => _orderManager.GetOrderByReference(reference, order => new Response
+            {
+                FirstName = order.FirstName,
+                LastName = order.LastName,
+                Address = order.Address,
+                City = order.City,
+                PostCode = order.PostCode,
+                Email = order.Email,
+                OrderReference = order.OrderReference,
+                PhoneNumber = order.PhoneNumber,
+                Products = order.OrderStocks.Select(stock => new Product
                 {
-                    FirstName = order.FirstName,
-                    LastName = order.LastName,
-                    Address = order.Address,
-                    City = order.City,
-                    PostCode = order.PostCode,
-                    Email = order.Email,
-                    OrderReference = order.OrderReference,
-                    PhoneNumber = order.PhoneNumber,
-                    Products = order.OrderStocks.Select(stock => new Product
-                    {
-                        Description = stock.Stock.Product.Description,
-                        Name = stock.Stock.Product.Name,
-                        Quantity = stock.Quantity,
-                        StockDescription = stock.Stock.Description,
-                        Value = stock.Stock.Product.Value.ToString("N2")
-                    }),
-                    TotalValue = order.OrderStocks.Sum(stock => stock.Stock.Product.Value).ToString("N2")
-                }).FirstOrDefault();
+                    Description = stock.Stock.Product.Description,
+                    Name = stock.Stock.Product.Name,
+                    Quantity = stock.Quantity,
+                    StockDescription = stock.Stock.Description,
+                    Value = stock.Stock.Product.Value.ToString("N2")
+                }),
+                TotalValue = order.OrderStocks.Sum(stock => stock.Stock.Product.Value).ToString("N2")
+            });
         
-
         public class Response
         {
             public string FirstName { get; set; }

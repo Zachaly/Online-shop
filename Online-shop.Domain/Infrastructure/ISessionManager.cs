@@ -1,9 +1,4 @@
-﻿using Online_shop.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Online_Shop.Domain.Models;
 
 namespace Online_Shop.Domain.Infrastructure
 {

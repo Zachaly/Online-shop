@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Online_shop.Domain.Models
+namespace Online_Shop.Domain.Models
 {
     public class StockOnHold
     {

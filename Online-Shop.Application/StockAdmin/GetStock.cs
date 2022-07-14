@@ -1,5 +1,4 @@
-﻿using Online_shop.Database;
-using Microsoft.EntityFrameworkCore;
+﻿using Online_Shop.Domain.Infrastructure;
 
 namespace Online_Shop.Application.StockAdmin
 {
@@ -8,26 +7,25 @@ namespace Online_Shop.Application.StockAdmin
     /// </summary>
     public class GetStock
     {
-        private AppDbContext _dbContext;
+        private readonly IProductManager _productManager;
 
-        public GetStock(AppDbContext dbContext)
+        public GetStock(IProductManager productManager)
         {
-            _dbContext = dbContext;
+            _productManager = productManager;
         }
 
         public IEnumerable<ProductViewModel> Execute()
-            => _dbContext.Products.Include(product => product.Stock).
-            Select(product => new ProductViewModel
+            => _productManager.GetProducsWithStock(product => new ProductViewModel
             {
                 Id = product.Id,
                 Description = product.Description,
                 Stock = product.Stock.Select(stock => new StockViewModel
-                    {
-                        Id = stock.Id,
-                        Quantity = stock.Quantity,
-                        Description = stock.Description
-                    }).ToList()
-            }).ToList();
+                {
+                    Id = stock.Id,
+                    Quantity = stock.Quantity,
+                    Description = stock.Description
+                }).ToList()
+            });
 
         public class StockViewModel
         {

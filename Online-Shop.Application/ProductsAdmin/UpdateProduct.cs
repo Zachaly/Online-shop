@@ -1,4 +1,4 @@
-﻿using Online_shop.Database;
+﻿using Online_Shop.Domain.Infrastructure;
 
 namespace Online_Shop.Application.ProductsAdmin
 {
@@ -7,22 +7,24 @@ namespace Online_Shop.Application.ProductsAdmin
     /// </summary>
     public class UpdateProduct
     {
-        private AppDbContext _dbContext;
+        private readonly IProductManager _productManager;
 
-        public UpdateProduct(AppDbContext dbContext)
+        public UpdateProduct(IProductManager productManager)
         {
-            _dbContext = dbContext;
+            _productManager = productManager;
         }
 
         public async Task<Response> ExecuteAsync(Request request)
         {
-            var product = _dbContext.Products.FirstOrDefault(prod => prod.Id == request.Id);
+            var product = _productManager.GetProductById(request.Id);
 
-            product.Name = request.Name;
-            product.Value = request.Value;
-            product.Description = request.Description;
+            await _productManager.UpdateProduct(product, (prod) =>
+            {
+                prod.Name = request.Name;
+                prod.Description = request.Description;
+                prod.Value = request.Value;
+            });
 
-            await _dbContext.SaveChangesAsync();
             return new Response
             {
                 Id = product.Id,

@@ -1,9 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
-using Online_shop.Domain.Models;
-using Online_Shop.Domain.Infrastructure;
+﻿using Online_Shop.Domain.Infrastructure;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace Online_Shop.Application.Cart
 {
@@ -12,7 +8,7 @@ namespace Online_Shop.Application.Cart
     /// </summary>
     public class GetCustomerInformation
     {
-        private ISessionManager _sessionManager;
+        private readonly ISessionManager _sessionManager;
 
         public GetCustomerInformation(ISessionManager sessionManager)
         {

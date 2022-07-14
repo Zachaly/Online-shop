@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Online_Shop.Domain.Infrastructure;
 
 namespace Online_Shop.Application.UsersAdmin
 {
@@ -7,20 +8,14 @@ namespace Online_Shop.Application.UsersAdmin
     /// </summary>
     public class DeleteUser
     {
-        private UserManager<IdentityUser> _userManager;
+        private readonly IUserManager _userManager;
 
-        public DeleteUser(UserManager<IdentityUser> userManager)
+        public DeleteUser(IUserManager userManager)
         {
             _userManager = userManager;
         }
 
         public async Task<bool> ExecuteAsync(string id)
-        {
-            var user = await _userManager.FindByIdAsync(id);
-
-            var result = await _userManager.DeleteAsync(user);
-
-            return result.Succeeded;
-        }
+            => await _userManager.DeleteUser(id);
     }
 }
