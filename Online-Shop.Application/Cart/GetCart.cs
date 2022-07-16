@@ -5,6 +5,7 @@ namespace Online_Shop.Application.Cart
     /// <summary>
     /// Gets products in cart
     /// </summary>
+    [Service]
     public class GetCart
     {
         private readonly ISessionManager _sessionManager;

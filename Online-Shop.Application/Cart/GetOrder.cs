@@ -5,6 +5,7 @@ namespace Online_Shop.Application.Cart
     /// <summary>
     /// Gets information from session needed in creating an order
     /// </summary>
+    [Service]
     public class GetOrder
     {
         private readonly ISessionManager _sessionManager;

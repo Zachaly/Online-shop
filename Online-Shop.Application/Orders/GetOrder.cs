@@ -5,6 +5,7 @@ namespace Online_Shop.Application.Orders
     /// <summary>
     /// Get order basing on reference
     /// </summary>
+    [Service]
     public class GetOrder
     {
         private readonly IOrderManager _orderManager;

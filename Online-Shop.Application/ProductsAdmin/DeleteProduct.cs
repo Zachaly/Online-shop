@@ -5,6 +5,7 @@ namespace Online_Shop.Application.ProductsAdmin
     /// <summary>
     /// Removes product from Database
     /// </summary>
+    [Service]
     public class DeleteProduct
     {
         private readonly IProductManager _productManager;

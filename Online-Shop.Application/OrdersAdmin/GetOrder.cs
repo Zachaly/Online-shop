@@ -5,6 +5,7 @@ namespace Online_Shop.Application.OrdersAdmin
     /// <summary>
     /// Gets max ammount of info about order for admin usage
     /// </summary>
+    [Service]
     public class GetOrder
     {
         private readonly IOrderManager _orderManager;

@@ -5,6 +5,7 @@ namespace Online_Shop.Application.OrdersAdmin
     /// <summary>
     /// Processes an order
     /// </summary>
+    [Service]
     public class UpdateOrder
     {
         private readonly IOrderManager _orderManager;

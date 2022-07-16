@@ -6,6 +6,7 @@ namespace Online_Shop.Application.StockAdmin
     /// <summary>
     /// Adds a stock
     /// </summary>
+    [Service]
     public class CreateStock
     {
         private readonly IStockManager _stockManager;

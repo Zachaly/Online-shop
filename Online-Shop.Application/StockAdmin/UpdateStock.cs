@@ -6,6 +6,7 @@ namespace Online_Shop.Application.StockAdmin
     /// <summary>
     /// Updates info about stock
     /// </summary>
+    [Service]
     public class UpdateStock
     {
         private readonly IStockManager _stockManager;

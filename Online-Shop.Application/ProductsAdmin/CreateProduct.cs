@@ -6,6 +6,7 @@ namespace Online_Shop.Application.ProductsAdmin
     /// <summary>
     /// Add product to Database
     /// </summary>
+    [Service]
     public class CreateProduct
     {
         private readonly IProductManager _productManager;

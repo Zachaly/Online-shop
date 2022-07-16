@@ -10,5 +10,6 @@ namespace Online_Shop.Domain.Infrastructure
         CustomerInformation GetCustomerInformation();
         void AddCustomerInformation(CustomerInformation customerInformation);
         void RemoveProductFromCart(int stockId, int quantity);
+        void ClearCart();
     }
 }

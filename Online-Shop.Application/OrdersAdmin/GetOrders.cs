@@ -6,6 +6,7 @@ namespace Online_Shop.Application.OrdersAdmin
     /// <summary>
     /// Gets all orders
     /// </summary>
+    [Service]
     public class GetOrders
     {
         private readonly IOrderManager _orderManager;

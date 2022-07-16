@@ -19,7 +19,8 @@ namespace Online_Shop.UI.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(PaymentIntentCreateRequest request,
             [FromServices] Application.Cart.GetOrder getCartOrder,
-            [FromServices] CreateOrder createOrder)
+            [FromServices] CreateOrder createOrder,
+            [FromServices] ClearCart clearCart)
         {
             var cartOrder = getCartOrder.Execute();
 
@@ -53,6 +54,8 @@ namespace Online_Shop.UI.Controllers
                     Quantity = prod.Quantity,
                 }).ToList(),
             });
+
+            clearCart.Execute();
 
             return Json(new { clientSecret = paymentIntent.ClientSecret });
         }

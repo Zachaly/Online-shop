@@ -6,6 +6,7 @@ namespace Online_Shop.Application.Cart
     /// <summary>
     /// Adds given stock to a cart, and reduces ammount of currectly avaible stocks
     /// </summary>
+    [Service]
     public class AddToCart
     {
         private readonly ISessionManager _sessionManager;

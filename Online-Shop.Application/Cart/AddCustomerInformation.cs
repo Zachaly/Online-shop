@@ -3,10 +3,11 @@ using Online_Shop.Domain.Infrastructure;
 using System.ComponentModel.DataAnnotations;
 
 namespace Online_Shop.Application.Cart
-{   
+{
     /// <summary>
     /// Adds customer information to session
     /// </summary>
+    [Service]
     public class AddCustomerInformation
     {
         private readonly ISessionManager _sessionManager;

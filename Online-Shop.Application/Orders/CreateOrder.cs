@@ -6,6 +6,7 @@ namespace Online_Shop.Application.Orders
     /// <summary>
     /// Creates an order
     /// </summary>
+    [Service]
     public class CreateOrder
     {
         private readonly IOrderManager _orderManager;

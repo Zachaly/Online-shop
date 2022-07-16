@@ -6,6 +6,7 @@ namespace Online_Shop.Application.Cart
     /// <summary>
     /// Get customer information from session
     /// </summary>
+    [Service]
     public class GetCustomerInformation
     {
         private readonly ISessionManager _sessionManager;

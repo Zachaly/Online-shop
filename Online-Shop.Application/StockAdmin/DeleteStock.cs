@@ -5,6 +5,7 @@ namespace Online_Shop.Application.StockAdmin
     /// <summary>
     /// Removes stock from Database
     /// </summary>
+    [Service]
     public class DeleteStock
     {
         private readonly IStockManager _stockManager;

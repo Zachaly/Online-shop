@@ -5,6 +5,7 @@ namespace Online_Shop.Application.Cart
     /// <summary>
     /// Removes products from cart and releases a stock on hold
     /// </summary>
+    [Service]
     public class RemoveFromCart
     {
         private readonly ISessionManager _sessionManager;

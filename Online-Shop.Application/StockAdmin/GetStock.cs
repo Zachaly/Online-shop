@@ -5,6 +5,7 @@ namespace Online_Shop.Application.StockAdmin
     /// <summary>
     /// Gets information about stock
     /// </summary>
+    [Service]
     public class GetStock
     {
         private readonly IProductManager _productManager;

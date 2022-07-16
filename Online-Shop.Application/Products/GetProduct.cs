@@ -5,6 +5,7 @@ namespace Online_Shop.Application.Products
     /// <summary>
     /// Gets product info for customer
     /// </summary>
+    [Service]
     public class GetProduct
     {
         private readonly IProductManager _productManager;

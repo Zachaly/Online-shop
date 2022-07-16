@@ -12,6 +12,8 @@ namespace Online_Shop.UI.Infrastructure
 {
     public class SessionManager : ISessionManager
     {
+        private const string CartKey = "Cart";
+        private const string CustomerInfoKey = "customer-info";
         private readonly ISession _session;
 
         public SessionManager(IHttpContextAccessor httpContextAccessor)
@@ -23,12 +25,12 @@ namespace Online_Shop.UI.Infrastructure
         {
             var customerInfo = JsonConvert.SerializeObject(customerInformation);
 
-            _session.SetString("customer-info", customerInfo);
+            _session.SetString(CustomerInfoKey, customerInfo);
         }
 
         public void AddProductToCart(CartProduct product)
         {
-            var cartString = _session.GetString("Cart");
+            var cartString = _session.GetString(CartKey);
             var cartList = new List<CartProduct>();
 
             if (!string.IsNullOrEmpty(cartString))
@@ -47,12 +49,12 @@ namespace Online_Shop.UI.Infrastructure
 
             var requestString = JsonConvert.SerializeObject(cartList);
 
-            _session.SetString("Cart", requestString);
+            _session.SetString(CartKey, requestString);
         }
 
         public IEnumerable<TResult> GetCartProducts<TResult>(Func<CartProduct, TResult> selector)
         {
-            var cartString = _session.GetString("Cart");
+            var cartString = _session.GetString(CartKey);
 
             if (string.IsNullOrEmpty(cartString))
             {
@@ -64,7 +66,7 @@ namespace Online_Shop.UI.Infrastructure
 
         public CustomerInformation GetCustomerInformation()
         {
-            var customerInfoString = _session.GetString("customer-info");
+            var customerInfoString = _session.GetString(CustomerInfoKey);
 
             if (string.IsNullOrEmpty(customerInfoString))
             {
@@ -78,7 +80,7 @@ namespace Online_Shop.UI.Infrastructure
 
         public void RemoveProductFromCart(int stockId, int quantity)
         {
-            var cartString = _session.GetString("Cart");
+            var cartString = _session.GetString(CartKey);
             var cartList = new List<CartProduct>();
 
             if (string.IsNullOrEmpty(cartString))
@@ -103,7 +105,12 @@ namespace Online_Shop.UI.Infrastructure
 
             var requestString = JsonConvert.SerializeObject(cartList);
 
-            _session.SetString("Cart", requestString);
+            _session.SetString(CartKey, requestString);
+        }
+
+        public void ClearCart()
+        {
+            _session.Remove(CartKey);
         }
     }
 }

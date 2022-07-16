@@ -5,6 +5,7 @@ namespace Online_Shop.Application.ProductsAdmin
     /// <summary>
     /// Updates information about product
     /// </summary>
+    [Service]
     public class UpdateProduct
     {
         private readonly IProductManager _productManager;
