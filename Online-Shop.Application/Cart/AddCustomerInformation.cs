@@ -1,6 +1,5 @@
 ﻿using Online_Shop.Domain.Models;
 using Online_Shop.Domain.Infrastructure;
-using System.ComponentModel.DataAnnotations;
 
 namespace Online_Shop.Application.Cart
 {
@@ -35,21 +34,12 @@ namespace Online_Shop.Application.Cart
 
         public class Request
         {
-            [Required]
             public string FirstName { get; set; }
-            [Required]
             public string LastName { get; set; }
-            [Required]
-            [DataType(DataType.EmailAddress)]
             public string Email { get; set; }
-            [Required]
             public string Address { get; set; }
-            [Required]
             public string City { get; set; }
-            [Required]
             public string PostCode { get; set; }
-            [Required]
-            [DataType(DataType.PhoneNumber)]
             public string PhoneNumber { get; set; }
         }
     }

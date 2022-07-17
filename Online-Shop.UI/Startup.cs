@@ -11,6 +11,8 @@ using Online_Shop.Domain.Infrastructure;
 using Online_Shop.UI.Infrastructure;
 using Stripe;
 using System;
+using FluentValidation;
+using Online_Shop.UI.Validators;
 
 namespace Online_Shop.UI
 {
@@ -69,6 +71,8 @@ namespace Online_Shop.UI
                     options.Conventions.AuthorizeFolder("/Admin");
                     options.Conventions.AuthorizePage("/Admin/ConfigureUsers", "Admin");
                 });
+
+            services.AddValidatorsFromAssemblyContaining<AddCustomerInformationRequestValidator>();
 
             StripeConfiguration.ApiKey = Configuration.GetSection("Stripe")["SecretKey"];
 

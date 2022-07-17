@@ -22,7 +22,9 @@ namespace Online_Shop.UI.ViewComponents
                 return View(view, $"{value}$");
             }
 
-            return View(view, _getCart.Execute());
+            var cart = _getCart.Execute();
+
+            return View(view, cart);
         }
     }
 }
