@@ -47,9 +47,15 @@ namespace Online_Shop.Database
 
         public async Task<bool> AdvanceOrder(int id)
         {
-            _dbContext.Orders.FirstOrDefault(order => order.Id == id).Status++;
+            var order = _dbContext.Orders.FirstOrDefault(order => order.Id == id);
 
-            return await _dbContext.SaveChangesAsync() > 0;
+            if((int)order.Status <= 1)
+            {
+                order.Status++;
+                return await _dbContext.SaveChangesAsync() > 0;
+            }
+
+            return false;
         }
     }
 }
